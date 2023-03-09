@@ -33,4 +33,40 @@ sequelize.sync().then(() => {
    console.error('Unable to create table Product: ', error);
 });
 
-module.exports = Product;
+// get all products
+exports.getAll = async function getAll() {
+  let result = await Product.findAll();
+  return result;
+}
+
+// get product by id
+exports.getById = async function getById(id) {
+  let result = await Product.findAll({
+    where: {
+      ID: id
+    }
+  });
+  return result;
+}
+
+// update product by id
+exports.updateById = async function updateById(id, product) {
+  let result = await Product.update(product, {
+    where: {
+      ID: id
+    }
+  });
+  return result;
+}
+
+// delete product by id
+exports.deleteById = async function deleteById(id) {
+  let result = await Product.destroy({
+    where: {
+      ID: id
+    }
+  });
+  return result;
+}
+
+exports.Product = Product;

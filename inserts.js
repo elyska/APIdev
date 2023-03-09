@@ -1,7 +1,7 @@
 
 const Role = require('./models/role.model.js');
 const User = require('./models/user.model.js');
-const Product = require('./models/product.model.js');
+const Product = require('./models/product.model.js').Product;
 const Category = require('./models/category.model.js');
 const CategoryItem = require('./models/category-item.model.js');
 

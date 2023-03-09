@@ -1,14 +1,15 @@
 const Koa = require('koa');
-const Router = require('koa-router');
 
 const app = new Koa();
-const router = new Router();
 
-router.get('/api/v1', welcome);
-app.use(router.routes());
+const user = require('./routes/user.route.js')
+const product = require('./routes/product.route.js')
+const order = require('./routes/order.route.js')
 
-function welcome(ctx, next) { 
-  ctx.body = { message: "Welcome to the blog API!" } 
-}
+app.use(user.routes());
+app.use(product.routes());
+app.use(order.routes());
 
-app.listen(3000);
+let port = process.env.PORT || 3000;
+
+app.listen(3000, () => console.log('Listening on port ' + port));
