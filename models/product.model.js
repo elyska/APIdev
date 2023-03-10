@@ -49,6 +49,12 @@ exports.getById = async function getById(id) {
   return result;
 }
 
+// add product
+exports.addProduct = async function addProduct(product) {
+  let result = await Product.create(product);
+  return result;
+}
+
 // update product by id
 exports.updateById = async function updateById(id, product) {
   let result = await Product.update(product, {

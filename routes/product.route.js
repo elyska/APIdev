@@ -7,6 +7,7 @@ const router = Router({prefix: '/api/v1/products'});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById);
+router.post('/', bodyParser(), addProduct);
 router.put('/:id([0-9]{1,})', bodyParser(), updateProduct);
 router.del('/:id([0-9]{1,})', deleteProduct);
 
@@ -20,6 +21,12 @@ async function getById(ctx) {
 
   let products = await model.getById(id);
   ctx.body = products;
+}
+
+async function addProduct(ctx) {
+  let product = ctx.request.body;
+  let result = await model.addProduct(product);
+  ctx.body = result;
 }
 
 async function updateProduct(ctx) {
