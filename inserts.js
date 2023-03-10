@@ -1,13 +1,15 @@
 
 const Role = require('./models/role.model.js');
-const User = require('./models/user.model.js');
+const User = require('./models/user.model.js').User;
 const Product = require('./models/product.model.js').Product;
-const Category = require('./models/category.model.js');
+const Category = require('./models/category.model.js').Category;
 const CategoryItem = require('./models/category-item.model.js');
 
 User.truncate();
 Role.truncate();
 Product.truncate();
+Category.truncate();
+CategoryItem.truncate();
 
 Role.bulkCreate([
   { name: "user" },
