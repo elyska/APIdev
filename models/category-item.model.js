@@ -25,4 +25,28 @@ sequelize.sync().then(() => {
    console.error('Unable to create table CategoryItem: ', error);
 });
 
-module.exports = CategoryItem;
+// add product to category
+exports.addToCategory = async function addToCategory(productId, categoryId) {
+  try {
+    let result = await CategoryItem.create({ productId: productId, categoryId: categoryId});
+  }
+  catch(err)
+  {
+    return err;
+  }
+  
+  return result;
+}
+
+// delete product from category
+exports.deleteFromCategory = async function deleteFromCategory(productId, categoryId) {
+  let result = await CategoryItem.destroy({
+    where: {
+      productId: productId, 
+      categoryId: categoryId
+    }
+  });
+  return result;
+}
+
+exports.CategoryItem = CategoryItem;

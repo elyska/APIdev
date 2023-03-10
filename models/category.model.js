@@ -1,6 +1,9 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes,belongsToMany } = require("sequelize");
 
 const sequelize = require('../db');
+
+const Product = require('./product.model.js').Product;
+const CategoryItem = require('./category-item.model.js').CategoryItem;
 
 const Category = sequelize.define("categories", {
   ID: {
@@ -21,6 +24,10 @@ sequelize.sync().then(() => {
    console.error('Unable to create table Category: ', error);
 });
 
+// associations
+Product.belongsToMany(Category, { through: CategoryItem, foreignKey: 'productId' });
+Category.belongsToMany(Product, { through: CategoryItem, foreignKey: 'categoryId' });
+
 // get all categories
 exports.getAll = async function getAll() {
   let result = await Category.findAll();
@@ -28,9 +35,22 @@ exports.getAll = async function getAll() {
 }
 
 // add category
-exports.addProduct = async function addProduct(category) {
+exports.addCategory = async function addCategory(category) {
   let result = await Category.create(category);
   return result;
+}
+
+// get products in category
+exports.getCategoryProducts = async function getCategoryProducts(id) {
+  let result =  await Category.findAll({ 
+    where: {
+      ID: id
+    },
+    include: Product 
+  });
+  
+  if (result.length > 0) return result[0].products; // results found
+  return result; // no results found
 }
 
 // delete category by id

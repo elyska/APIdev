@@ -33,6 +33,7 @@ sequelize.sync().then(() => {
    console.error('Unable to create table Product: ', error);
 });
 
+
 // get all products
 exports.getAll = async function getAll() {
   let result = await Product.findAll();
