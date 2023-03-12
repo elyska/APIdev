@@ -2,7 +2,10 @@
 const {Validator, ValidationError} = require('jsonschema');
 
 const productSchema = require('../schemas/product.json').definitions.product;
+const productUpdateSchema = require('../schemas/product.json').definitions.productUpdate;
 const userSchema = require('../schemas/user.json').definitions.user;
+const orderSchema = require('../schemas/order.json').definitions.order;
+const categorySchema = require('../schemas/category.json').definitions.category;
 
 const makeKoaValidator = (schema, resource) => {
 
@@ -33,5 +36,7 @@ const makeKoaValidator = (schema, resource) => {
 }
 
 exports.validateProduct = makeKoaValidator(productSchema, 'product');
-exports.validateProductUpdate = makeKoaValidator(productSchema, 'product'); // TODO: schema - properties not required
+exports.validateProductUpdate = makeKoaValidator(productUpdateSchema, 'productUpdate');
 exports.validateUser = makeKoaValidator(userSchema, 'user');
+exports.validateOrder = makeKoaValidator(orderSchema, 'order');
+exports.validateCategory = makeKoaValidator(categorySchema, 'category');

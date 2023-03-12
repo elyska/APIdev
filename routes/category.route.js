@@ -5,11 +5,13 @@ const Category = require('../models/category.model.js');
 const Product = require('../models/product.model.js');
 const CategoryItem = require('../models/category-item.model.js');
 
+const { validateCategory } = require('../controllers/validation');
+
 const router = Router({prefix: '/api/v1/categories'});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getCategoryProducts);
-router.post('/', bodyParser(), addCategory);
+router.post('/', bodyParser(), validateCategory, addCategory);
 router.post('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', bodyParser(), addToCategory);
 router.del('/:id([0-9]{1,})', deleteCategory);
 router.del('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', deleteFromCategory);

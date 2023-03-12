@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "category":{
+      "id": "#category",
+      "title": "Category",
+      "description": "Category for products",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the category",
+          "type": "string"
+        }
+      },
+      "required": ["title"]
+    }
+  }
+}

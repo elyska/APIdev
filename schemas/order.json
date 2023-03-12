@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "order":{
+      "id": "#order",
+      "title": "Order",
+      "description": "Order data",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "description": "ID of the user who placed the order",
+          "type": "integer"
+        },
+        "address": {
+          "description": "Delivery address for the order",
+          "type": "string"
+        },
+        "products": {
+          "description": "Ordered products",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": {
+                "description": "ID of the ordered product",
+                "type": "integer"
+              },
+              "quantity": {
+                "description": "Quantity of the ordered product",
+                "type": "integer"
+              }
+            },
+            "required": ["productId", "quantity"]
+          }
+        }
+      },
+      "required": ["userId", "address", "products"]
+    }
+  }
+}

@@ -8,13 +8,16 @@ const Product = require('../models/product.model.js');
 const Order = require('../models/order.model.js');
 const OrderItem = require('../models/order-item.model.js');
 
+const { validateOrder } = require('../controllers/validation');
+
 const PaymentHelper= require('../helpers/payment.helper.js');
 
 const router = Router({prefix: '/api/v1/orders'});
 
 router.get('/', getAll);
-router.get('/:id([0-9]{1,})', getAllbyUserId);
-router.post('/', bodyParser(), insertOrder);
+router.get('/:id([0-9]{1,})', getById);
+router.get('/user/:id([0-9]{1,})', getAllbyUserId);
+router.post('/', bodyParser(), validateOrder, insertOrder);
 
 router.post('/:id([0-9]{1,})/payment', bodyParser(), createPayment);
 router.get('/success', paymentSuccess);
@@ -33,7 +36,7 @@ async function createPayment(ctx) {
 
   // payment
   // adapted from https://stripe.com/docs/checkout/quickstart?lang=node
-  
+
   const YOUR_DOMAIN = 'https://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/orders';
   
   const session = await stripe.checkout.sessions.create({
@@ -60,6 +63,12 @@ async function getAll(ctx) {
   ctx.body = orders;
 }
 
+async function getById(ctx) {
+  let id = ctx.params.id;
+  let order = await Order.getById(id);
+  ctx.body = order;
+}
+
 async function getAllbyUserId(ctx) {
   let id = ctx.params.id;
   let orders = await Order.getAllbyUserId(id);
@@ -68,6 +77,7 @@ async function getAllbyUserId(ctx) {
 
 async function insertOrder(ctx) {
   let order = ctx.request.body;
+  console.log(order)
 
   let result = await Order.insertOrder(order);
   let items = await OrderItem.insertOrderItems(order.products, result.ID);

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "product":{
+    "product": {
       "id": "#product",
       "title": "Product",
       "description": "Product of the ecommerce application",
@@ -25,6 +25,30 @@
         }
       },
       "required": ["title", "description", "image", "price"]
+    },
+    "productUpdate": {
+      "id": "#productUpdate",
+      "title": "Product Update",
+      "description": "Product data for update",
+      "type": "object",
+      "properties": {
+        "title": {
+          "description": "Title of the product",
+          "type": "string"
+        },
+        "description": {
+          "description": "Description of the product",
+          "type": "string"
+        },
+        "image": {
+          "description": "URL of the product image",
+          "type": "string"
+        },
+        "price": {
+          "description": "Price of the product in GBP",
+          "type": "number"
+        }
+      }
     }
   }
 }
