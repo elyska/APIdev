@@ -38,7 +38,7 @@ sequelize.sync().then(() => {
 
 // get user by email
 exports.getByEmail = async function getByEmail(email) {
-  let result = await User.findAll({
+  let result = await User.findOne({
     where: {
       email: email
     }
