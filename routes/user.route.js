@@ -3,12 +3,14 @@ const bodyParser = require('koa-bodyparser');
 
 const model = require('../models/user.model.js');
 
+const { validateUser } = require('../controllers/validation');
+
 const router = Router({prefix: '/api/v1/users'});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById);
 router.del('/:id([0-9]{1,})', deleteUser);
-router.post('/', bodyParser(), createUser);
+router.post('/', bodyParser(), validateUser, createUser);
 
 async function getAll(ctx) {
   let users = await model.getAll();

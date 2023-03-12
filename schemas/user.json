@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "user":{
+      "id": "#user",
+      "title": "User",
+      "description": "User of the ecommerce application",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "First name and last name",
+          "type": "string"
+        },
+        "password": {
+          "description": "Hash of user's password",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "type": "string"
+        },
+        "role": {
+          "description": "User's role",
+          "type": "string"
+        }
+      },
+      "required": ["name", "password", "email"]
+    }
+  }
+}
