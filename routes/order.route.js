@@ -8,6 +8,8 @@ const Product = require('../models/product.model.js');
 const Order = require('../models/order.model.js');
 const OrderItem = require('../models/order-item.model.js');
 
+const PaymentHelper= require('../helpers/payment.helper.js');
+
 const router = Router({prefix: '/api/v1/orders'});
 
 router.get('/', getAll);
@@ -19,29 +21,29 @@ router.get('/success', paymentSuccess);
 router.get('/cancel', paymentCancel);
 
 async function createPayment(ctx) {
+  // get order items
+  let orderId = ctx.params.id;
+
+  let order = await Order.getById(orderId);
+  if (!order) {
+    ctx.body = { "message": "Order not found" }; 
+    return;
+  }
+  let lineItems = PaymentHelper.getLineItems(order.products);
+
+  // payment
+  // adapted from https://stripe.com/docs/checkout/quickstart?lang=node
+  
   const YOUR_DOMAIN = 'https://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/orders';
-  const product = await stripe.products.create({
-    name: 'Gold Special',
-  });
-  const price = await stripe.prices.create({
-    currency: 'gbp',
-    unit_amount: 10*100, // price in pence
-    product: product.id,
-  });
+  
   const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-        price: price.id,
-        quantity: 1,
-      },
-    ],
+    line_items: lineItems,
     mode: 'payment',
     success_url: `${YOUR_DOMAIN}/success`,
     cancel_url: `${YOUR_DOMAIN}/cancel`,
   });
 
-  ctx.redirect(session.url); 
+  ctx.body = { "payment": session.url }; 
   
 }
 

@@ -42,6 +42,18 @@ exports.getAll = async function getAll() {
   return result;
 }
 
+// get order by id
+exports.getById = async function getById(id) {
+  let result =  await Order.findOne({ 
+    where: {
+      ID: id
+    },
+    include: Product 
+  });
+
+  return result;
+}
+
 // get all orders of one user
 exports.getAllbyUserId = async function getAllbyUserId(id) {
   let result =  await Order.findAll({ 
