@@ -11,11 +11,13 @@ const CategoryItem = sequelize.define("categoryItems", {
   },
   productId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique: false
   },
   categoryId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+    unique: false
   }
 }, { timestamps: false });
 
@@ -29,13 +31,13 @@ sequelize.sync().then(() => {
 exports.addToCategory = async function addToCategory(productId, categoryId) {
   try {
     let result = await CategoryItem.create({ productId: productId, categoryId: categoryId});
+    return result;
   }
   catch(err)
   {
     return err;
   }
   
-  return result;
 }
 
 // delete product from category

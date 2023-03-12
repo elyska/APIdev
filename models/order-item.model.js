@@ -13,6 +13,10 @@ const OrderItem = sequelize.define("orderItems", {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+  quantity: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
   orderId: {
     type: DataTypes.INTEGER,
     allowNull: false
@@ -25,4 +29,15 @@ sequelize.sync().then(() => {
    console.error('Unable to create table OrderItem: ', error);
 });
 
-module.exports = OrderItem;
+// insert order items
+exports.insertOrderItems = async function insertOrderItems(items, orderId) {
+  // add order id to items
+  for (let i = 0; i < items.length; i++) {
+    items[i].orderId = orderId;
+  }
+  // insert items
+  let result = await OrderItem.bulkCreate(items);
+  return result;
+}
+
+exports.OrderItem = OrderItem;

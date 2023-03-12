@@ -1,15 +1,27 @@
+// RESET DATABASE
+// mysql
+// use ecommerce;
+// source db-truncate.sql;
+// node inserts.js
 
+const sequelize = require('./db');
 const Role = require('./models/role.model.js');
 const User = require('./models/user.model.js').User;
 const Product = require('./models/product.model.js').Product;
 const Category = require('./models/category.model.js').Category;
 const CategoryItem = require('./models/category-item.model.js').CategoryItem;
+const Order = require('./models/order.model.js').Order;
+const OrderItem = require('./models/order-item.model.js').OrderItem;
 
+/*
 User.truncate();
 Role.truncate();
+CategoryItem.truncate();
 Product.truncate();
 Category.truncate();
-CategoryItem.truncate();
+OrderItem.truncate();
+Order.truncate();
+*/
 
 Role.bulkCreate([
   { name: "user" },
@@ -21,6 +33,7 @@ User.bulkCreate([
   { name: "user1", password: "$2b$10$ia9v64.qGCdaCPVkUqaeJOsMBKS694QEaKAa3y052200.Tl2IRyci", email: "user1@user.com", address: "Coventry", role: "user" },
   { name: "user2", password: "$2b$10$ia9v64.qGCdaCPVkUqaeJOsMBKS694QEaKAa3y052200.Tl2IRyci", email: "user2@user.com", address: "Birmingham", role: "user" },
   { name: "user3", password: "$2b$10$ia9v64.qGCdaCPVkUqaeJOsMBKS694QEaKAa3y052200.Tl2IRyci", email: "user3@user.com", address: "London", role: "user" },
+  { name: "user4", password: "$2b$10$ia9v64.qGCdaCPVkUqaeJOsMBKS694QEaKAa3y052200.Tl2IRyci", email: "user4@user.com", address: "London", role: "user" },
 ]);
 
 Product.bulkCreate([
