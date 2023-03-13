@@ -3,6 +3,7 @@ const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const jwt = require('jsonwebtoken');
 const auth = require('../controllers/auth');
+const can = require('../permissions/users.permissions.js');
 
 const model = require('../models/user.model.js');
 const Token = require('../models/refresh-tokens.model.js');
@@ -15,8 +16,8 @@ const { validateUser } = require('../controllers/validation');
 const router = Router({prefix: '/api/v1/users'});
 
 router.get('/', auth, getAll);
-router.get('/:id([0-9]{1,})', getById);
-router.del('/:id([0-9]{1,})', deleteUser);
+router.get('/:id([0-9]{1,})', auth, getById);
+router.del('/:id([0-9]{1,})', auth, deleteUser);
 router.post('/', bodyParser(), validateUser, createUser);
 
 router.post('/login', bodyParser(), login); // validateUserLogin
@@ -73,14 +74,35 @@ async function refresh(ctx) {
 }
 
 async function getAll(ctx) {
-  let users = await model.getAll();
-  ctx.body = users;
+  const user = ctx.state.user;
+  const permission = can.readAll(user);
+
+  if (permission.granted) {
+    let users = await model.getAll();
+    ctx.body = users;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function getById(ctx) {
-  let id = ctx.params.id;
-  let user = await model.getById(id);
-  ctx.body = user;
+  const user = ctx.state.user;
+  const id = ctx.params.id;
+  const owner = await model.getById(id);
+  if (!owner) {
+    ctx.body = { "message": "User does not exist" };
+    return;
+  }
+
+  const permission = can.read(user, owner);
+
+  if (permission.granted) {
+    ctx.body = permission.filter(owner).dataValues;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" }
+  }
 }
 
 async function createUser(ctx) {
@@ -90,9 +112,25 @@ async function createUser(ctx) {
 }
 
 async function deleteUser(ctx) {
-  let id = ctx.params.id;
-  let rowsAffected = await model.deleteUser(id);
-  ctx.body = rowsAffected;
+  const user = ctx.state.user;
+  const id = ctx.params.id;
+  const owner = await model.getById(id);
+  if (!owner) {
+    ctx.body = { "message": "User does not exist" };
+    return;
+  }
+
+  const permission = can.delete(user, owner);
+
+  if (permission.granted) {
+    let rowsAffected = await model.deleteUser(id);
+    ctx.body = rowsAffected;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" }
+  }
+
+  
 }
 
 module.exports = router;

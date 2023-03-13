@@ -48,7 +48,7 @@ exports.getByEmail = async function getByEmail(email) {
 
 // get user by id
 exports.getById = async function getById(id) {
-  let result = await User.findAll({
+  let result = await User.findOne({
     where: {
       ID: id
     }

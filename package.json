@@ -20,6 +20,7 @@
     "mysql2": "^3.1.2",
     "passport-http": "^0.3.0",
     "passport-jwt": "^4.0.1",
+    "role-acl": "^4.5.4",
     "sequelize": "^6.29.0",
     "stripe": "^11.14.0"
   }
