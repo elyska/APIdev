@@ -42,7 +42,7 @@ exports.getAll = async function getAll() {
 
 // get product by id
 exports.getById = async function getById(id) {
-  let result = await Product.findAll({
+  let result = await Product.findOne({
     where: {
       ID: id
     }

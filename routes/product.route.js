@@ -1,5 +1,7 @@
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
+const auth = require('../controllers/auth');
+const can = require('../permissions/products.permissions.js');
 
 const model = require('../models/product.model.js');
 
@@ -9,9 +11,9 @@ const router = Router({prefix: '/api/v1/products'});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById);
-router.post('/', bodyParser(), validateProduct, addProduct);
-router.put('/:id([0-9]{1,})', bodyParser(), validateProductUpdate, updateProduct);
-router.del('/:id([0-9]{1,})', deleteProduct);
+router.post('/', bodyParser(), auth, validateProduct, addProduct);
+router.put('/:id([0-9]{1,})', bodyParser(), auth, validateProductUpdate, updateProduct);
+router.del('/:id([0-9]{1,})', auth, deleteProduct);
 
 async function getAll(ctx) {
   let products = await model.getAll();
@@ -26,24 +28,55 @@ async function getById(ctx) {
 }
 
 async function addProduct(ctx) {
-  let product = ctx.request.body;
-  let result = await model.addProduct(product);
-  ctx.body = result;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.create(user);
+
+  if (permission.granted) {
+    // add product
+    let product = ctx.request.body;
+    let result = await model.addProduct(product);
+    ctx.body = result;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function updateProduct(ctx) {
-  let id = ctx.params.id;
-  const body = ctx.request.body;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.update(user);
 
-  let affectedRows = await model.updateById(id, body);
-  ctx.body = affectedRows;
+  if (permission.granted) {
+    // update product
+    const id = ctx.params.id;
+    const product = ctx.request.body;
+
+    const affectedRows = await model.updateById(id, product);
+    ctx.body =  { "message": `${affectedRows} product updated` };
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function deleteProduct(ctx) {
-  let id = ctx.params.id;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.delete(user);
 
-  let affectedRows = await model.deleteById(id);
-  ctx.body = affectedRows;
+  if (permission.granted) {
+    // delete product
+    const id = ctx.params.id;
+    const product = ctx.request.body;
+
+    const affectedRows = await model.deleteById(id);
+    ctx.body =  { "message": `${affectedRows} product deleted` };
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 module.exports = router;

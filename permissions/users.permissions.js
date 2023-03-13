@@ -15,14 +15,13 @@ ac.grant('admin').execute('read').on('user', ['dataValues.ID', 'dataValues.name'
 // admin can view all users
 ac.grant('admin').execute('read').on('users');
 // admin can delete other accounts except their own
-ac.grant('admin').condition({Fn:'NOT_EQUALS', args:
-{'requester':'$.owner'}}).execute('delete').on('user');
+ac.grant('admin').condition({Fn:'NOT_EQUALS', args:{'requester':'$.owner'}}).execute('delete').on('user');
 
 exports.readAll = (requester) =>
-ac.can(requester.role).execute('read').sync().on('users');
+  ac.can(requester.role).execute('read').sync().on('users');
 
 exports.read = (requester, data) =>
-ac.can(requester.role).context({requester:requester.email, owner:data.email}).execute('read').sync().on('user');
+  ac.can(requester.role).context({requester:requester.email, owner:data.email}).execute('read').sync().on('user');
 
 exports.delete = (requester, data) =>
   ac.can(requester.role).context({requester:requester.email, owner:data.email}).execute('delete').sync().on('user');

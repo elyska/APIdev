@@ -124,7 +124,7 @@ async function deleteUser(ctx) {
 
   if (permission.granted) {
     let rowsAffected = await model.deleteUser(id);
-    ctx.body = rowsAffected;
+    ctx.body = { "message": `User ${id} deleted` };;
   }
   else {
     ctx.body = { "message": "Permission not granted" }

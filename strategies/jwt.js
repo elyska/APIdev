@@ -19,7 +19,7 @@ const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
   const user = await User.getByEmail(jwt_payload.email); 
 
   if (!user) { // user not found
-    return done(err, false);
+    return done(null, false);
   }
   else {
     return done(null, user);
