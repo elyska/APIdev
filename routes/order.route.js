@@ -1,10 +1,13 @@
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
+const auth = require('../controllers/auth');
+const can = require('../permissions/orders.permissions.js');
 
 require('dotenv').config()
 const stripe = require('stripe')(process.env.SECRET_KEY_STRIPE);
 
 const Product = require('../models/product.model.js');
+const User = require('../models/user.model.js');
 const Order = require('../models/order.model.js');
 const OrderItem = require('../models/order-item.model.js');
 
@@ -14,25 +17,42 @@ const PaymentHelper= require('../helpers/payment.helper.js');
 
 const router = Router({prefix: '/api/v1/orders'});
 
-router.get('/', getAll);
-router.get('/:id([0-9]{1,})', getById);
-router.get('/user/:id([0-9]{1,})', getAllbyUserId);
+router.get('/', auth, getAll);
+router.get('/:id([0-9]{1,})', auth, getById);
+router.get('/user/:id([0-9]{1,})', auth, getAllbyUserId);
 router.post('/', bodyParser(), validateOrder, insertOrder);
 
-router.post('/:id([0-9]{1,})/payment', bodyParser(), createPayment);
+router.post('/:id([0-9]{1,})/payment', bodyParser(), auth, createPayment);
 router.get('/success', paymentSuccess);
 router.get('/cancel', paymentCancel);
-router.post('/:id([0-9]{1,})/payment-completed', bodyParser(), paymentCompleted);
+router.post('/:id([0-9]{1,})/payment-completed', bodyParser(), auth, paymentCompleted);
 
-async function createPayment(ctx) { // owner
+async function createPayment(ctx) { 
   // get order items
   let orderId = ctx.params.id;
 
+  const user = ctx.state.user;
   let order = await Order.getById(orderId);
+  // check if order exists
   if (!order) {
     ctx.body = { "message": "Order not found" }; 
     return;
   }
+  // check if order was paid
+  if (order.paid) {
+    ctx.body = { "message": "Order is already paid for" }; 
+    return;
+  }
+  const owner = await User.getById(order.userId);
+
+  const permission = can.pay(user, owner);
+
+  // check permissions
+  if (!permission.granted) { // user is not the owner of the order
+    ctx.body = { "massage": "Permission not granted" }
+    return;
+  }
+
   let lineItems = PaymentHelper.getLineItems(order.products);
 
   // payment
@@ -51,9 +71,32 @@ async function createPayment(ctx) { // owner
 }
 
 async function paymentCompleted(ctx) {
-  let id = ctx.params.id;
-  let order = await Order.updatePaid(id);
-  ctx.body = { "message": "Payment completed" };
+  let orderId = ctx.params.id;
+
+  const user = ctx.state.user;
+  let order = await Order.getById(orderId);
+  // check if order exists
+  if (!order) {
+    ctx.body = { "message": "Order not found" }; 
+    return;
+  }
+  // check if order was paid
+  if (order.paid) {
+    ctx.body = { "message": "Order is already paid for" }; 
+    return;
+  }
+  const owner = await User.getById(order.userId);
+
+  const permission = can.pay(user, owner);
+
+  // check permissions
+  if (permission.granted) { 
+    let order = await Order.updatePaid(orderId);
+    ctx.body = { "message": "Payment completed" };
+  }
+  else {
+    ctx.body = { "massage": "Permission not granted" }
+  }
 }
 
 async function paymentSuccess(ctx) {
@@ -65,20 +108,64 @@ async function paymentCancel(ctx) {
 }
 
 async function getAll(ctx) { // admin
-  let orders = await Order.getAll();
-  ctx.body = orders;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.readAll(user);
+
+  if (permission.granted) {
+    // delete product
+    let orders = await Order.getAll();
+    ctx.body = orders;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function getById(ctx) { // admin, user - owner
-  let id = ctx.params.id;
-  let order = await Order.getById(id);
-  ctx.body = order;
+  // check permission
+  const user = ctx.state.user;
+  let orderId = ctx.params.id;
+
+  let order = await Order.getById(orderId);
+  // check if order exists
+  if (!order) {
+    ctx.body = { "message": "Order not found" }; 
+    return;
+  }
+  const owner = await User.getById(order.userId);
+
+  const permission = can.read(user, owner);
+
+  if (permission.granted) {
+    ctx.body = order;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function getAllbyUserId(ctx) { // admin, user - owner
-  let id = ctx.params.id;
-  let orders = await Order.getAllbyUserId(id);
-  ctx.body = orders;
+  // check permission
+  const user = ctx.state.user;
+  let userId = ctx.params.id;
+
+  const owner = await User.getById(userId);
+  // check if user exists
+  if (!owner) {
+    ctx.body = { "message": "User not found" }; 
+    return;
+  }
+
+  const permission = can.read(user, owner);
+
+  if (permission.granted) {
+    let orders = await Order.getAllbyUserId(userId);
+    ctx.body = orders;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function insertOrder(ctx) {
