@@ -66,8 +66,8 @@ async function refresh(ctx) {
   }
   // token found in the database
   // create new tokens and delete the old refresh token
-  const  newAccessToken = TokenHelper.createAccessToken(payload.email);
-  const  newRefreshToken = await TokenHelper.createRefreshToken(payload.email);
+  const newAccessToken = TokenHelper.createAccessToken(payload.email);
+  const newRefreshToken = await TokenHelper.createRefreshToken(payload.email);
   const rowsAffected = await Token.deleteToken(refreshToken); // refresh token rotation
       
   ctx.body = { "accessToken": "Bearer " + newAccessToken, "refreshToken": newRefreshToken };
@@ -129,8 +129,6 @@ async function deleteUser(ctx) {
   else {
     ctx.body = { "message": "Permission not granted" }
   }
-
-  
 }
 
 module.exports = router;

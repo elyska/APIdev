@@ -1,5 +1,7 @@
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
+const auth = require('../controllers/auth');
+const can = require('../permissions/categories.permissions.js');
 
 const Category = require('../models/category.model.js');
 const Product = require('../models/product.model.js');
@@ -11,10 +13,10 @@ const router = Router({prefix: '/api/v1/categories'});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getCategoryProducts);
-router.post('/', bodyParser(), validateCategory, addCategory);
-router.post('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', bodyParser(), addToCategory);
-router.del('/:id([0-9]{1,})', deleteCategory);
-router.del('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', deleteFromCategory);
+router.post('/', bodyParser(), auth, validateCategory, addCategory);
+router.post('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', auth, bodyParser(), addToCategory);
+router.del('/:id([0-9]{1,})', auth, deleteCategory);
+router.del('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', auth, deleteFromCategory);
 
 async function getAll(ctx) {
   let result = await Category.getAll();
@@ -22,16 +24,36 @@ async function getAll(ctx) {
 }
 
 async function addCategory(ctx) {
-  let product = ctx.request.body;
-  let result = await Category.addCategory(product);
-  ctx.body = result;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.create(user);
+
+  if (permission.granted) {
+    // add category
+    let category = ctx.request.body;
+    let result = await Category.addCategory(category);
+    ctx.body = result;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function addToCategory(ctx) {
-  let cid = ctx.params.cid;
-  let pid = ctx.params.pid;
-  let result = await CategoryItem.addToCategory(pid, cid);
-  ctx.body = result;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.create(user);
+
+  if (permission.granted) {
+    // add to category
+    let cid = ctx.params.cid;
+    let pid = ctx.params.pid;
+    let result = await CategoryItem.addToCategory(pid, cid);
+    ctx.body = result;
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function getCategoryProducts(ctx) {
@@ -41,17 +63,37 @@ async function getCategoryProducts(ctx) {
 }
 
 async function deleteCategory(ctx) {
-  let id = ctx.params.id;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.delete(user);
 
-  let affectedRows = await Category.deleteById(id);
-  ctx.body = affectedRows;
+  if (permission.granted) {
+    // delete category
+    let id = ctx.params.id;
+
+    let affectedRows = await Category.deleteById(id);
+    ctx.body =  { "message": `${affectedRows} category deleted` };
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 async function deleteFromCategory(ctx) {
-  let cid = ctx.params.cid;
-  let pid = ctx.params.pid;
-  let affectedRows = await CategoryItem.deleteFromCategory(pid, cid);
-  ctx.body = affectedRows;
+  // check permission
+  const user = ctx.state.user;
+  const permission = can.delete(user);
+
+  if (permission.granted) {
+    // delete category
+    let cid = ctx.params.cid;
+    let pid = ctx.params.pid;
+    let affectedRows = await CategoryItem.deleteFromCategory(pid, cid);
+    ctx.body =  { "message": `${affectedRows} product deleted from category ${cid}` };
+  }
+  else {
+    ctx.body = { "message": "Permission not granted" };
+  }
 }
 
 module.exports = router;
