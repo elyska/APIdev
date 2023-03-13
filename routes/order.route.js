@@ -22,8 +22,9 @@ router.post('/', bodyParser(), validateOrder, insertOrder);
 router.post('/:id([0-9]{1,})/payment', bodyParser(), createPayment);
 router.get('/success', paymentSuccess);
 router.get('/cancel', paymentCancel);
+router.post('/:id([0-9]{1,})/payment-completed', bodyParser(), paymentCompleted);
 
-async function createPayment(ctx) {
+async function createPayment(ctx) { // owner
   // get order items
   let orderId = ctx.params.id;
 
@@ -47,7 +48,12 @@ async function createPayment(ctx) {
   });
 
   ctx.body = { "payment": session.url }; 
-  
+}
+
+async function paymentCompleted(ctx) {
+  let id = ctx.params.id;
+  let order = await Order.updatePaid(id);
+  ctx.body = { "message": "Payment completed" };
 }
 
 async function paymentSuccess(ctx) {
@@ -58,18 +64,18 @@ async function paymentCancel(ctx) {
   ctx.body = { "message": "cancel" };
 }
 
-async function getAll(ctx) {
+async function getAll(ctx) { // admin
   let orders = await Order.getAll();
   ctx.body = orders;
 }
 
-async function getById(ctx) {
+async function getById(ctx) { // admin, user - owner
   let id = ctx.params.id;
   let order = await Order.getById(id);
   ctx.body = order;
 }
 
-async function getAllbyUserId(ctx) {
+async function getAllbyUserId(ctx) { // admin, user - owner
   let id = ctx.params.id;
   let orders = await Order.getAllbyUserId(id);
   ctx.body = orders;

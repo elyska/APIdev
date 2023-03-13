@@ -19,6 +19,11 @@ const Order = sequelize.define("orders", {
   address: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  paid: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
   }
 }, { timestamps: true });
 
@@ -69,6 +74,16 @@ exports.getAllbyUserId = async function getAllbyUserId(id) {
 // insert order
 exports.insertOrder = async function insertOrder(order) {
   let result = await Order.create(order);
+  return result;
+}
+
+// update payment status
+exports.updatePaid = async function updatePaid(id) {
+  let result = await Order.update({ paid: true }, {
+    where: {
+      ID: id
+    }
+  });
   return result;
 }
 
