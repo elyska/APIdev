@@ -1,7 +1,7 @@
 // adapted from https://livecoventryac-my.sharepoint.com/:w:/g/personal/ab5169_coventry_ac_uk/EaUULlg7ZJhAjdnQ7FJINzoBwU5Feh5C7AF2IIErYO2TIA?e=ocVhuP
 const {Validator, ValidationError} = require('jsonschema');
 
-const productSchema = require('../schemas/product.json').definitions.product;
+const productSchema = require('../schemas/product.json').definitions.productCreate;
 const productUpdateSchema = require('../schemas/product.json').definitions.productUpdate;
 const userSchema = require('../schemas/user.json').definitions.userCreate;
 const userLoginSchema = require('../schemas/user.json').definitions.userLogin;

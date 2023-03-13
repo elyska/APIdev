@@ -17,14 +17,22 @@ router.del('/:id([0-9]{1,})', auth, deleteProduct);
 
 async function getAll(ctx) {
   let products = await model.getAll();
+  ctx.status = 200;
   ctx.body = products;
 }
 
 async function getById(ctx) {
   let id = ctx.params.id;
 
-  let products = await model.getById(id);
-  ctx.body = products;
+  let product = await model.getById(id);
+  if (!product) {
+    ctx.status = 404;
+    ctx.body = { "message": "Product does not exist" };
+    return;
+  }
+
+  ctx.status = 200;
+  ctx.body = product;
 }
 
 async function addProduct(ctx) {
@@ -36,9 +44,11 @@ async function addProduct(ctx) {
     // add product
     let product = ctx.request.body;
     let result = await model.addProduct(product);
+    ctx.status = 201;
     ctx.body = result;
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -54,9 +64,17 @@ async function updateProduct(ctx) {
     const product = ctx.request.body;
 
     const affectedRows = await model.updateById(id, product);
-    ctx.body =  { "message": `${affectedRows} product updated` };
+    if (affectedRows != 0) {
+      ctx.status = 200;
+      ctx.body =  { "message": `${affectedRows} product updated` };
+    }
+    else {
+      ctx.status = 400;
+      ctx.body =  { "message": `Product was not updated` };
+    }
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -72,9 +90,17 @@ async function deleteProduct(ctx) {
     const product = ctx.request.body;
 
     const affectedRows = await model.deleteById(id);
-    ctx.body =  { "message": `${affectedRows} product deleted` };
+    if (affectedRows != 0) {
+      ctx.status = 200;
+      ctx.body =  { "message": `${affectedRows} product deleted` };
+    }
+    else {
+      ctx.status = 400;
+      ctx.body =  { "message": `Product was not deleted` };
+    }
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
