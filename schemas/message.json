@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "message":{
+      "id": "#message",
+      "title": "Message",
+      "description": "Response message",
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "Message content",
+          "type": "string"
+        }
+      },
+      "required": ["message"]
+    }
+  }
+}

@@ -7,6 +7,10 @@
       "description": "User of the ecommerce application",
       "type": "object",
       "properties": {
+        "ID": {
+          "description": "Id of the user",
+          "type": "integer"
+        },
         "name": {
           "description": "First name and last name",
           "type": "string"
@@ -25,6 +29,76 @@
         }
       },
       "required": ["name", "password", "email"]
+    },
+    "userView": {
+      "$id": "#userView",
+      "title": "User View",
+      "description": "Visible user data - excludes password.",
+      "type": "object",
+      "properties": {
+        "ID": {
+          "description": "Id of the user",
+          "type": "integer"
+        },
+        "name": {
+          "description": "First name and last name",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "type": "string"
+        },
+        "role": {
+          "description": "User's role",
+          "type": "string"
+        }
+      }
+    },
+    "usersAll": {
+      "$id": "#usersAll",
+      "title": "All Users",
+      "description": "List of all users.",
+      "type": "array",
+      "items": {"$ref": "#/definitions/userView"}
+    },
+    "userCreate": {
+      "id": "#userCreate",
+      "title": "User Create",
+      "description": "Data for creating a new user of the ecommerce application",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "First name and last name",
+          "type": "string"
+        },
+        "password": {
+          "description": "Hash of user's password",
+          "type": "string"
+        },
+        "email": {
+          "description": "User's email address",
+          "type": "string"
+        }
+      },
+      "required": ["name", "password", "email"],
+      "additionalProperties": false
+    },
+    "userLogin": {
+      "id": "#userLogin",
+      "title": "User Login",
+      "description": "Data for logging in",
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "User's email address",
+          "type": "string"
+        },
+        "password": {
+          "description": "Hash of user's password",
+          "type": "string"
+        }
+      },
+      "required": ["password", "email"]
     }
   }
 }

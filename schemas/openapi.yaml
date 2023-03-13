@@ -1,0 +1,171 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: E-commerce API
+  description: E-commerce API with support for online payments, product and order administration
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'https://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1'
+    description: Development server
+tags:
+  - name: Users
+    description: API endpoints for managing users.
+  - name: Products
+    description: API endpoints for managing products.
+  - name: Categories
+    description: API endpoints for managing product categories.
+  - name: Orders
+    description: API endpoints for managing orders and payments.
+paths:
+  /users:
+    summary: Users of the e-commerce application
+    description: This resource represents users of the system.
+    get:
+      tags:
+        - Users
+      description:
+        View all users
+      responses:
+        '200':
+          description: View of all users excluding password.
+          content:
+            application/json:
+              schema:
+                $ref: ./user.json#/definitions/usersAll
+        '401':
+          description: Non-admin cannot view other users.
+    post:
+      tags:
+        - Users
+      description:
+        Create a new user account
+      requestBody:
+        description: User data, no additional properties allowed.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./user.json#/definitions/userCreate 
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: ./user.json#/definitions/user
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: User's id
+    get:
+      tags:
+        - Users
+      description:
+        Get user by id
+      responses:
+        '200':
+          description: View of a user details, excluding password.
+          content:
+            application/json:
+              schema:
+                $ref: ./user.json#/definitions/userView
+        '401':
+          description: Non-admin users can only view their own account.
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '404':
+          description: User does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+    delete:
+      tags:
+        - Users
+      description:
+        Delete user by ID
+      responses:
+        '200':
+          description: Delete confirmation.
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Non-admin users can only delete their own account, admin user cannot delete their account, admin user can delete other accounts.
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '404':
+          description: User does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /login:
+    post:
+      tags:
+        - Users
+      description:
+        Log in to a user account
+      requestBody:
+        description: User email and password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./user.json#/definitions/userLogin 
+      responses:
+        '200':
+          description: Logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: ./token.json#/definitions/token
+        '400':
+          description: Incorrect user details
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /refresh:
+    post:
+      tags:
+        - Users
+      description:
+        Refresh token
+      requestBody:
+        description: Refresh token
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./token.json#/definitions/tokenRefresh 
+      responses:
+        '201':
+          description: Access token refreshed, new refresh token generated, old refresh token deleted from the database
+          content:
+            application/json:
+              schema:
+                $ref: ./token.json#/definitions/token
+        '400':
+          description: Token not found or invalid
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message

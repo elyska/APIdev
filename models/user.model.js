@@ -21,7 +21,8 @@ const User = sequelize.define("users", {
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    unique: true
   },
   role: {
     type: DataTypes.STRING(16),
@@ -69,7 +70,7 @@ exports.createUser = async function createUser(user) {
   // create password hash
   const hash = bcrypt.hashSync(user.password, saltRounds);
   user.password = hash;
-  
+
   let result = await User.create(user);
   return result;
 }
