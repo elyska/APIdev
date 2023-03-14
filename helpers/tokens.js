@@ -1,6 +1,6 @@
 
 /**
- * A module to create tokens for JWT athentication.
+ * A helper module to create tokens for JWT athentication.
  * @module helpers/tokens
  */
 

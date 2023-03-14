@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: helpers/tokens.js</title>
+    <title>JSDoc: Module: controllers/auth</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,47 +17,96 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: helpers/tokens.js</h1>
+    <h1 class="page-title">Module: controllers/auth</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * A helper module to create tokens for JWT athentication.
- * @module helpers/tokens
- */
+</header>
 
-require('dotenv').config()
-const jwt = require('jsonwebtoken');
-const Token = require('../models/refresh-tokens.model.js');
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">A module that exports passport middleware for Koa.</div>
+        
 
-/**
- * A function that creates an access token.
- * @param {string} email - The user's email address
- * @returns {string} - The access token
- */
-exports.createAccessToken = function createAccessToken(email) {
-  const accessToken = jwt.sign({ email: email, iat: Math.floor(Date.now() / 1000) }, process.env.TOKEN_SECRET, { expiresIn: '10min' });
-  return accessToken;
-}
+        
 
-/**
- * A function that creates a refresh token.
- * @param {string} email - The user's email address
- * @returns {string} - The refresh token
- */
-exports.createRefreshToken = async function createRefreshToken(email) {
-  const refreshToken = jwt.sign({ email: email, iat: Math.floor(Date.now() / 1000) }, process.env.REFRESH_SECRET, { expiresIn: '3d' });
-  const result = await Token.addToken(refreshToken, email);
-  return refreshToken;
-}</code></pre>
-        </article>
-    </section>
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_auth.js.html">controllers/auth.js</a>, <a href="controllers_auth.js.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

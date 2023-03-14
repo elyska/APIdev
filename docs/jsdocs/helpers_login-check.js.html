@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: helpers/tokens.js</title>
+    <title>JSDoc: Source: helpers/login-check.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: helpers/tokens.js</h1>
+    <h1 class="page-title">Source: helpers/login-check.js</h1>
 
     
 
@@ -26,36 +26,31 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * A helper module to create tokens for JWT athentication.
- * @module helpers/tokens
+            <pre class="prettyprint source linenums"><code>/**
+ * A helper module for Login.
+ * @module helpers/login-check
  */
 
-require('dotenv').config()
-const jwt = require('jsonwebtoken');
-const Token = require('../models/refresh-tokens.model.js');
+const bcrypt = require('bcrypt');
+
+const model = require('../models/user.model.js');
 
 /**
- * A function that creates an access token.
+ * A function to verify login details.
  * @param {string} email - The user's email address
- * @returns {string} - The access token
+ * @param {string} password - The hash of user's password
+ * @returns {boolean} - The result of the verification
  */
-exports.createAccessToken = function createAccessToken(email) {
-  const accessToken = jwt.sign({ email: email, iat: Math.floor(Date.now() / 1000) }, process.env.TOKEN_SECRET, { expiresIn: '10min' });
-  return accessToken;
+exports.verifyLoginDetails = async function verifyLoginDetails(email, password) {
+  
+  let user = await model.getByEmail(email);
+  if (user) {
+    return bcrypt.compareSync(password, user.password);
+  }
+  
+  return false;
 }
-
-/**
- * A function that creates a refresh token.
- * @param {string} email - The user's email address
- * @returns {string} - The refresh token
- */
-exports.createRefreshToken = async function createRefreshToken(email) {
-  const refreshToken = jwt.sign({ email: email, iat: Math.floor(Date.now() / 1000) }, process.env.REFRESH_SECRET, { expiresIn: '3d' });
-  const result = await Token.addToken(refreshToken, email);
-  return refreshToken;
-}</code></pre>
+</code></pre>
         </article>
     </section>
 
