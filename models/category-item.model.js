@@ -29,15 +29,8 @@ sequelize.sync().then(() => {
 
 // add product to category
 exports.addToCategory = async function addToCategory(productId, categoryId) {
-  try {
-    let result = await CategoryItem.create({ productId: productId, categoryId: categoryId});
-    return result;
-  }
-  catch(err)
-  {
-    return err;
-  }
-  
+  let result = await CategoryItem.create({ productId: productId, categoryId: categoryId});
+  return result;
 }
 
 // delete product from category

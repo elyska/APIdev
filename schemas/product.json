@@ -85,8 +85,8 @@
           "description": "Price of the product in GBP",
           "type": "number"
         }
-      }
-    },
-    "additionalProperties": false
+      },
+      "additionalProperties": false
+    }
   }
 }

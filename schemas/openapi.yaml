@@ -215,6 +215,13 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
   /products/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: Product id
     get:
       tags:
         - Products
@@ -284,6 +291,157 @@ paths:
                 $ref: ./message.json#/definitions/message
         '401':
           description: Only admin users can delete products
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /categories:
+    description: This resource represents product categories.
+    get:
+      tags:
+        - Categories
+      description:
+        View all categories
+      responses:
+        '200':
+          description: View of all categories
+          content:
+            application/json:
+              schema:
+                $ref: ./category.json#/definitions/categoriesAll
+    post:
+      tags:
+        - Categories
+      description:
+        Create a new category
+      requestBody:
+        description: Category data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./category.json#/definitions/categoryCreate 
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema:
+                $ref: ./category.json#/definitions/category
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users can add new categories
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /categories/{cid}/product/{pid}:
+    parameters:
+      - in: path
+        name: cid
+        schema:
+          type: integer
+        required: true
+        description: Category id
+      - in: path
+        name: pid
+        schema:
+          type: integer
+        required: true
+        description: Product id
+    post:
+      tags:
+        - Categories
+      description:
+        Add a product to a category
+      responses:
+        '201':
+          description: Product added to the category
+          content:
+            application/json:
+              schema:
+                $ref: ./category.json#/definitions/categoryItem
+        '400':
+          description: Product could not be added
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users can add products to categories
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+    delete:
+      tags:
+        - Categories
+      description:
+        Delete a product from a category
+      responses:
+        '200':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '400':
+          description: Category could not be deleted
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users can delete categories
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /categories/{id}:
+    parameters:
+      - in: path
+        name: cid
+        schema:
+          type: integer
+        required: true
+        description: Category id
+    get:
+      tags:
+        - Categories
+      description:
+        View all products in a category
+      responses:
+        '200':
+          description: View of all products in a category
+          content:
+            application/json:
+              schema:
+                $ref: ./category.json#/definitions/categoryProductsAll
+    delete:
+      tags:
+        - Categories
+      description:
+        Delete a category by id
+      responses:
+        '200':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '400':
+          description: Category could not be deleted
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users can delete categories
           content:
             application/json:
               schema:

@@ -20,6 +20,7 @@ router.del('/:cid([0-9]{1,})/product/:pid([0-9]{1,})', auth, deleteFromCategory)
 
 async function getAll(ctx) {
   let result = await Category.getAll();
+  ctx.status = 200;
   ctx.body = result;
 }
 
@@ -32,9 +33,11 @@ async function addCategory(ctx) {
     // add category
     let category = ctx.request.body;
     let result = await Category.addCategory(category);
+    ctx.status = 201;
     ctx.body = result;
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -48,10 +51,19 @@ async function addToCategory(ctx) {
     // add to category
     let cid = ctx.params.cid;
     let pid = ctx.params.pid;
-    let result = await CategoryItem.addToCategory(pid, cid);
-    ctx.body = result;
+    try {
+      let result = await CategoryItem.addToCategory(pid, cid);
+      ctx.status = 201;
+      ctx.body = result;
+    }
+    catch(err)
+    {
+      ctx.status = 400;
+      ctx.body = { "message": err.parent.sqlMessage };
+    }
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -59,6 +71,7 @@ async function addToCategory(ctx) {
 async function getCategoryProducts(ctx) {
   let id = ctx.params.id;
   let result = await Category.getCategoryProducts(id);
+  ctx.status = 200;
   ctx.body = result;
 }
 
@@ -72,9 +85,17 @@ async function deleteCategory(ctx) {
     let id = ctx.params.id;
 
     let affectedRows = await Category.deleteById(id);
-    ctx.body =  { "message": `${affectedRows} category deleted` };
+    if (affectedRows != 0) {
+      ctx.status = 200;
+      ctx.body =  { "message": `${affectedRows} category deleted` };
+    }
+    else {
+      ctx.status = 400;
+      ctx.body =  { "message": `Category was not deleted` };
+    }
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -89,9 +110,17 @@ async function deleteFromCategory(ctx) {
     let cid = ctx.params.cid;
     let pid = ctx.params.pid;
     let affectedRows = await CategoryItem.deleteFromCategory(pid, cid);
-    ctx.body =  { "message": `${affectedRows} product deleted from category ${cid}` };
+    if (affectedRows != 0) {
+      ctx.status = 200;
+      ctx.body =  { "message": `${affectedRows} product deleted from category ${cid}` };
+    }
+    else {
+      ctx.status = 400;
+      ctx.body =  { "message": `Product was not deleted` };
+    }
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
