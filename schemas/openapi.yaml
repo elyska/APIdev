@@ -471,6 +471,13 @@ paths:
         - Orders
       description:
         Place an order
+      requestBody:
+        description: Order data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./order.json#/definitions/addOrder 
       responses:
         '201':
           description: Order was successfully created
