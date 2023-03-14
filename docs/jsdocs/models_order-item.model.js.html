@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: models/category-item.model.js</title>
+    <title>JSDoc: Source: models/order-item.model.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: models/category-item.model.js</h1>
+    <h1 class="page-title">Source: models/order-item.model.js</h1>
 
     
 
@@ -28,15 +28,15 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * An ORM module that defines the CategoryItem model.
- * @module models/category-item
+ * An ORM module that defines the OrderItem model.
+ * @module models/order-item
  */
 
 const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = require('../db');
 
-const CategoryItem = sequelize.define("categoryItems", {
+const OrderItem = sequelize.define("orderItems", {
   ID: {
     allowNull: false,
     autoIncrement: true,
@@ -45,60 +45,60 @@ const CategoryItem = sequelize.define("categoryItems", {
   },
   productId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: false
+    allowNull: false
   },
-  categoryId: {
+  quantity: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: false
+    allowNull: false
+  },
+  orderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 }, { timestamps: false });
 
 sequelize.sync().then(() => {
-   console.log('CategoryItem table created successfully!');
+   console.log('OrderItem table created successfully!');
 }).catch((error) => {
-   console.error('Unable to create table CategoryItem: ', error);
+   console.error('Unable to create table OrderItem: ', error);
 });
 
 /**
- * An object containing Category Item details
- * @typedef {Object} CategoryItem
- * @property {integer} ID - ID of the category item
+ * An object containing Order Item details
+ * @typedef {Object} OrderItem
+ * @property {integer} ID - ID of the order item
  * @property {integer} productId - ID of the product
- * @property {integer} categoryId - ID of the category
+ * @property {integer} quantity - Quantity of the product
+ * @property {integer} orderId - ID of the order
  */
 
 /**
- * A function to add product to category.
- * @param {integer} productId - ID of the product
- * @param {integer} categoryId - ID of the category
- * @returns {CategoryItem} - Newly created category item details
+ * An object containing Order Item details for creation
+ * @typedef {Object} CreateOrderItem
+ * @property {integer} productId - ID of the product
+ * @property {integer} quantity - Quantity of the product
  */
-exports.addToCategory = async function addToCategory(productId, categoryId) {
-  let result = await CategoryItem.create({ productId: productId, categoryId: categoryId});
-  return result;
-}
+
 /**
- * A function to delete product from category.
- * @param {integer} productId - ID of the product
- * @param {integer} categoryId - ID of the category
- * @returns {integer} - Number of affected rows
+ * A function to insert order items.
+ * @param {CreateOrderItem} items - Order items details
+ * @param {integer} orderId - ID of the order
+ * @returns {Array.&lt;OrderItem>} - A list of newly created order items
  */
-exports.deleteFromCategory = async function deleteFromCategory(productId, categoryId) {
-  let result = await CategoryItem.destroy({
-    where: {
-      productId: productId, 
-      categoryId: categoryId
-    }
-  });
+exports.insertOrderItems = async function insertOrderItems(items, orderId) {
+  // add order id to items
+  for (let i = 0; i &lt; items.length; i++) {
+    items[i].orderId = orderId;
+  }
+  // insert items
+  let result = await OrderItem.bulkCreate(items);
   return result;
 }
 
 /**
- * The CategoryItem model
+ * The OrderItem model
  */
-exports.CategoryItem = CategoryItem;</code></pre>
+exports.OrderItem = OrderItem;</code></pre>
         </article>
     </section>
 

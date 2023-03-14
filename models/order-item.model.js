@@ -1,3 +1,9 @@
+
+/**
+ * An ORM module that defines the OrderItem model.
+ * @module models/order-item
+ */
+
 const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = require('../db');
@@ -29,7 +35,28 @@ sequelize.sync().then(() => {
    console.error('Unable to create table OrderItem: ', error);
 });
 
-// insert order items
+/**
+ * An object containing Order Item details
+ * @typedef {Object} OrderItem
+ * @property {integer} ID - ID of the order item
+ * @property {integer} productId - ID of the product
+ * @property {integer} quantity - Quantity of the product
+ * @property {integer} orderId - ID of the order
+ */
+
+/**
+ * An object containing Order Item details for creation
+ * @typedef {Object} CreateOrderItem
+ * @property {integer} productId - ID of the product
+ * @property {integer} quantity - Quantity of the product
+ */
+
+/**
+ * A function to insert order items.
+ * @param {CreateOrderItem} items - Order items details
+ * @param {integer} orderId - ID of the order
+ * @returns {Array.<OrderItem>} - A list of newly created order items
+ */
 exports.insertOrderItems = async function insertOrderItems(items, orderId) {
   // add order id to items
   for (let i = 0; i < items.length; i++) {
@@ -40,4 +67,7 @@ exports.insertOrderItems = async function insertOrderItems(items, orderId) {
   return result;
 }
 
+/**
+ * The OrderItem model
+ */
 exports.OrderItem = OrderItem;
