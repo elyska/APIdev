@@ -40,6 +40,7 @@ Category.belongsToMany(Product, { through: CategoryItem, foreignKey: 'categoryId
  * @property {integer} ID - ID of the category
  * @property {string} title - The title of the category
  */
+
 /**
  * An object containing Category details for its creation
  * @typedef {Object} CreateCategory
@@ -110,6 +111,8 @@ exports.deleteById = async function deleteById(id) {
       ID: id
     }
   });
+  console.log(result)
+  console.log(typeof result)
   return result;
 }
 

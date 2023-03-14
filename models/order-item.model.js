@@ -53,7 +53,7 @@ sequelize.sync().then(() => {
 
 /**
  * A function to insert order items.
- * @param {CreateOrderItem} items - Order items details
+ * @param {Array.<CreateOrderItem>} items - Order items details
  * @param {integer} orderId - ID of the order
  * @returns {Array.<OrderItem>} - A list of newly created order items
  */

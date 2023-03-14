@@ -7,11 +7,12 @@
 /**
  * An object containing product details
  * @typedef {Object} Product
+ * @property {integer} ID - ID of the product
  * @property {string} title - name of the product
  * @property {integer} price - price of the product
  * @property {string} description - multiline description of the product
  * @property {string} image - URL of the product image
- * @property {OrderItem} orderItems - order item details
+ * @property {Array.<OrderItem>} orderItems - A list of order items
  */
 
 /**
@@ -35,7 +36,7 @@
 /**
  * A function to create line items from order items for Stripe payments.
  * @param {Product} products - Ordered product details
- * @returns {LineItem} - The line items
+ * @returns {Array.<LineItem>} - The line items
  */
 exports.getLineItems = function getLineItems(products) {
   let lineItems = []
