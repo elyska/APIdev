@@ -23,5 +23,8 @@
     "role-acl": "^4.5.4",
     "sequelize": "^6.29.0",
     "stripe": "^11.14.0"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
   }
 }
