@@ -35,11 +35,13 @@ async function createPayment(ctx) {
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    ctx.status = 404;
     ctx.body = { "message": "Order not found" }; 
     return;
   }
   // check if order was paid
   if (order.paid) {
+    ctx.status = 400;
     ctx.body = { "message": "Order is already paid for" }; 
     return;
   }
@@ -49,6 +51,7 @@ async function createPayment(ctx) {
 
   // check permissions
   if (!permission.granted) { // user is not the owner of the order
+    ctx.status = 401;
     ctx.body = { "massage": "Permission not granted" }
     return;
   }
@@ -67,6 +70,7 @@ async function createPayment(ctx) {
     cancel_url: `${YOUR_DOMAIN}/cancel`,
   });
 
+  ctx.status = 200;
   ctx.body = { "payment": session.url }; 
 }
 
@@ -77,11 +81,13 @@ async function paymentCompleted(ctx) {
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    ctx.status = 404;
     ctx.body = { "message": "Order not found" }; 
     return;
   }
   // check if order was paid
   if (order.paid) {
+    ctx.status = 400;
     ctx.body = { "message": "Order is already paid for" }; 
     return;
   }
@@ -92,18 +98,22 @@ async function paymentCompleted(ctx) {
   // check permissions
   if (permission.granted) { 
     let order = await Order.updatePaid(orderId);
+    ctx.status = 201;
     ctx.body = { "message": "Payment completed" };
   }
   else {
+    ctx.status = 401;
     ctx.body = { "massage": "Permission not granted" }
   }
 }
 
 async function paymentSuccess(ctx) {
+  ctx.status = 200;
   ctx.body = { "message": "success" };
 }
 
 async function paymentCancel(ctx) {
+  ctx.status = 400;
   ctx.body = { "message": "cancel" };
 }
 
@@ -115,9 +125,11 @@ async function getAll(ctx) { // admin
   if (permission.granted) {
     // delete product
     let orders = await Order.getAll();
+    ctx.status = 200;
     ctx.body = orders;
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -130,6 +142,7 @@ async function getById(ctx) { // admin, user - owner
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    ctx.status = 404;
     ctx.body = { "message": "Order not found" }; 
     return;
   }
@@ -138,9 +151,11 @@ async function getById(ctx) { // admin, user - owner
   const permission = can.read(user, owner);
 
   if (permission.granted) {
+    ctx.status = 200;
     ctx.body = order;
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -153,6 +168,7 @@ async function getAllbyUserId(ctx) { // admin, user - owner
   const owner = await User.getById(userId);
   // check if user exists
   if (!owner) {
+    ctx.status = 404;
     ctx.body = { "message": "User not found" }; 
     return;
   }
@@ -161,9 +177,11 @@ async function getAllbyUserId(ctx) { // admin, user - owner
 
   if (permission.granted) {
     let orders = await Order.getAllbyUserId(userId);
+    ctx.status = 200;
     ctx.body = orders;
   }
   else {
+    ctx.status = 401;
     ctx.body = { "message": "Permission not granted" };
   }
 }
@@ -177,6 +195,8 @@ async function insertOrder(ctx) {
 
   // add order items to result
   result.dataValues.products = items;
+
+  ctx.status = 201;
   ctx.body = result;
 }
 

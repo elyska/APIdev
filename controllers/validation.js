@@ -5,7 +5,7 @@ const productSchema = require('../schemas/product.json').definitions.productCrea
 const productUpdateSchema = require('../schemas/product.json').definitions.productUpdate;
 const userSchema = require('../schemas/user.json').definitions.userCreate;
 const userLoginSchema = require('../schemas/user.json').definitions.userLogin;
-const orderSchema = require('../schemas/order.json').definitions.order;
+const orderSchema = require('../schemas/order.json').definitions.addOrder;
 const categorySchema = require('../schemas/category.json').definitions.categoryCreate;
 
 const makeKoaValidator = (schema, resource) => {

@@ -446,3 +446,179 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+  /orders:
+    description: This resource represents orders.
+    get:
+      tags:
+        - Orders
+      description:
+        View all orders
+      responses:
+        '200':
+          description: View of all orders
+          content:
+            application/json:
+              schema:
+                $ref: ./order.json#/definitions/ordersAll
+        '401':
+          description: Only admin users can view all orders
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+    post:
+      tags:
+        - Orders
+      description:
+        Place an order
+      responses:
+        '201':
+          description: Order was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: ./order.json#/definitions/order
+        '400':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      description:
+        View an order by order id
+      responses:
+        '200':
+          description: View of an order
+          content:
+            application/json:
+              schema:
+                $ref: ./order.json#/definitions/orderDetails
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users can view all orders
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /orders/user/{id}:
+    get:
+      tags:
+        - Orders
+      description:
+        View of all orders by user id
+      responses:
+        '200':
+          description: List of all user's orders
+          content:
+            application/json:
+              schema:
+                $ref: ./order.json#/definitions/ordersAll
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only admin users and owners can view all user's orders
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /orders/{id}/payment:
+    post:
+      tags:
+        - Orders
+      description:
+        Pay for an order
+      responses:
+        '200':
+          description: Payment was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: ./order.json#/definitions/paymentLink
+        '400':
+          description: Order is already paid for
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only owners of the oreder can pay for it
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+  /orders/{id}/payment-completed:
+    post:
+      tags:
+        - Orders
+      description:
+        Complete payment
+      responses:
+        '201':
+          description: Payment status of an order changed
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '400':
+          description: Order is already paid for
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '401':
+          description: Only owners of the oreder can pay for it
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message                
+  /orders/success:
+    get:
+      tags:
+        - Orders
+      description:
+        Payment success
+      responses:
+        '200':
+          description: Payment was successful
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message                
+  /orders/cancel:
+    get:
+      tags:
+        - Orders
+      description:
+        Payment cancel
+      responses:
+        '400':
+          description: Payment was cancelled
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
