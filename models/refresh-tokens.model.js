@@ -1,3 +1,9 @@
+
+/**
+ * An ORM module that defines the Token model.
+ * @module models/refresh-tokens
+ */
+
 const { Sequelize, DataTypes } = require("sequelize");
 
 const sequelize = require('../db');
@@ -25,13 +31,31 @@ sequelize.sync().then(() => {
    console.error('Unable to create table Token: ', error);
 });
 
-// add token
+
+/**
+ * An object containing Token details
+ * @typedef {Object} Token
+ * @property {integer} ID - ID of the token
+ * @property {string} token - The refresh token
+ * @property {string} userEmail - The user's email
+ */
+
+/**
+ * A function to add a refresh token.
+ * @param {string} token - The refresh token
+ * @param {string} email - The user's email
+ * @returns {Token} - Newly created token details
+ */
 exports.addToken = async function addToken(token, email) {
   let result = await Token.create({ token: token, userEmail: email });
   return result;
 }
 
-// get token
+/**
+ * A function to get a refresh token.
+ * @param {string} token - The refresh token
+ * @returns {Token} - Token details
+ */
 exports.getToken = async function getToken(token) {
   let result =  await Token.findOne({ 
     where: {
@@ -42,7 +66,11 @@ exports.getToken = async function getToken(token) {
   return result;
 }
 
-// delete token
+/**
+ * A function to delete a refresh token.
+ * @param {string} token - The refresh token
+ * @returns {integer} - Number of rows affected
+ */
 exports.deleteToken = async function deleteToken(token) {
   let result = await Token.destroy({
     where: {
@@ -52,4 +80,7 @@ exports.deleteToken = async function deleteToken(token) {
   return result;
 }
 
+/**
+ * The Token model
+ */
 exports.Token = Token;

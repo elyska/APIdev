@@ -146,7 +146,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line156">line 156</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -284,7 +284,7 @@
     
 
     
-    <h4 class="name" id=".getAllbyUserId"><span class="type-signature">(static) </span>getAllbyUserId<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;Order>}</span></h4>
+    <h4 class="name" id=".getAllbyUserId"><span class="type-signature">(static) </span>getAllbyUserId<span class="signature">(id)</span><span class="type-signature"> &rarr; {Array.&lt;Order>}</span></h4>
     
 
     
@@ -301,6 +301,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the user</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -336,7 +385,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line109">line 109</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line111">line 111</a>
     </li></ul></dd>
     
 
@@ -394,7 +443,7 @@
     
 
     
-    <h4 class="name" id=".getById"><span class="type-signature">(static) </span>getById<span class="signature">()</span><span class="type-signature"> &rarr; {Order}</span></h4>
+    <h4 class="name" id=".getById"><span class="type-signature">(static) </span>getById<span class="signature">(id)</span><span class="type-signature"> &rarr; {Order}</span></h4>
     
 
     
@@ -411,6 +460,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the order</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -446,7 +544,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line94">line 94</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line95">line 95</a>
     </li></ul></dd>
     
 
@@ -504,7 +602,7 @@
     
 
     
-    <h4 class="name" id=".insertOrder"><span class="type-signature">(static) </span>insertOrder<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;CreatedOrder>}</span></h4>
+    <h4 class="name" id=".insertOrder"><span class="type-signature">(static) </span>insertOrder<span class="signature">(order)</span><span class="type-signature"> &rarr; {Array.&lt;CreatedOrder>}</span></h4>
     
 
     
@@ -521,6 +619,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>order</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">OrderInsert</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Order details for creation</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -556,7 +703,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line135">line 135</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line153">line 153</a>
     </li></ul></dd>
     
 
@@ -614,7 +761,7 @@
     
 
     
-    <h4 class="name" id=".updatePaid"><span class="type-signature">(static) </span>updatePaid<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    <h4 class="name" id=".updatePaid"><span class="type-signature">(static) </span>updatePaid<span class="signature">(id)</span><span class="type-signature"> &rarr; {Object}</span></h4>
     
 
     
@@ -631,6 +778,55 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the order</td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -666,7 +862,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line144">line 144</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -947,7 +1143,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line120">line 120</a>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line137">line 137</a>
     </li></ul></dd>
     
 
@@ -1227,6 +1423,176 @@
 
             
                 
+<h4 class="name" id="~OrderInsert">OrderInsert</h4>
+
+
+
+
+<div class="description">
+    An object containing Order details for creation
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>userId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the user</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>address</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The delivery address</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>products</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;OrderItemInsert></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">A list of the ordered product</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
 <h4 class="name" id="~OrderItem">OrderItem</h4>
 
 
@@ -1403,6 +1769,153 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~OrderItemInsert">OrderItemInsert</h4>
+
+
+
+
+<div class="description">
+    An object containing Order Item details for creation
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>productId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">ID of the product</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>quantity</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Quantity of the product</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="models_order.model.js.html">models/order.model.js</a>, <a href="models_order.model.js.html#line122">line 122</a>
     </li></ul></dd>
     
 
@@ -1671,13 +2184,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_login-check.html">helpers/login-check</a></li><li><a href="module-helpers_payment.html">helpers/payment</a></li><li><a href="module-helpers_tokens.html">helpers/tokens</a></li><li><a href="module-models_category.html">models/category</a></li><li><a href="module-models_category-item.html">models/category-item</a></li><li><a href="module-models_order.html">models/order</a></li><li><a href="module-models_order-item.html">models/order-item</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_login-check.html">helpers/login-check</a></li><li><a href="module-helpers_payment.html">helpers/payment</a></li><li><a href="module-helpers_tokens.html">helpers/tokens</a></li><li><a href="module-models_category.html">models/category</a></li><li><a href="module-models_category-item.html">models/category-item</a></li><li><a href="module-models_order.html">models/order</a></li><li><a href="module-models_order-item.html">models/order-item</a></li><li><a href="module-models_product.html">models/product</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Mar 14 2023 22:24:37 GMT+0000 (GMT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 15 2023 09:00:22 GMT+0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>
