@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: helpers/tokens</title>
+    <title>JSDoc: Module: permissions/categories</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: helpers/tokens</h1>
+    <h1 class="page-title">Module: permissions/categories</h1>
 
     
 
@@ -34,7 +34,7 @@
     <div class="container-overview">
     
         
-            <div class="description">A helper module to create tokens for JWT athentication.</div>
+            <div class="description">A module to create permissions for the Category resource.</div>
         
 
         
@@ -69,7 +69,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_tokens.js.html">helpers/tokens.js</a>, <a href="helpers_tokens.js.html#line2">line 2</a>
+        <a href="permissions_categories.permissions.js.html">permissions/categories.permissions.js</a>, <a href="permissions_categories.permissions.js.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -108,7 +108,7 @@
     
 
     
-    <h4 class="name" id=".createAccessToken"><span class="type-signature">(static) </span>createAccessToken<span class="signature">(email)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".create"><span class="type-signature">(static) </span>create<span class="signature">(requester)</span><span class="type-signature"></span></h4>
     
 
     
@@ -116,7 +116,7 @@
 
 
 <div class="description">
-    A function that creates an access token.
+    Wrapper that creates permissions to create new categories.
 </div>
 
 
@@ -152,13 +152,13 @@
 
         <tr>
             
-                <td class="name"><code>email</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -168,7 +168,7 @@
 
             
 
-            <td class="description last">The user's email address</td>
+            <td class="description last">Details of the user requesting permission</td>
         </tr>
 
     
@@ -209,7 +209,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_tokens.js.html">helpers/tokens.js</a>, <a href="helpers_tokens.js.html#line16">line 16</a>
+        <a href="permissions_categories.permissions.js.html">permissions/categories.permissions.js</a>, <a href="permissions_categories.permissions.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -234,28 +234,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - The access token
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -267,7 +245,7 @@
     
 
     
-    <h4 class="name" id=".createRefreshToken"><span class="type-signature">(static) </span>createRefreshToken<span class="signature">(email)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">(requester)</span><span class="type-signature"></span></h4>
     
 
     
@@ -275,7 +253,7 @@
 
 
 <div class="description">
-    A function that creates a refresh token.
+    Wrapper that creates permissions to delete new categories.
 </div>
 
 
@@ -311,13 +289,13 @@
 
         <tr>
             
-                <td class="name"><code>email</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">object</span>
 
 
             
@@ -327,7 +305,7 @@
 
             
 
-            <td class="description last">The user's email address</td>
+            <td class="description last">Details of the user requesting permission</td>
         </tr>
 
     
@@ -368,7 +346,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="helpers_tokens.js.html">helpers/tokens.js</a>, <a href="helpers_tokens.js.html#line26">line 26</a>
+        <a href="permissions_categories.permissions.js.html">permissions/categories.permissions.js</a>, <a href="permissions_categories.permissions.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -393,28 +371,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - The refresh token
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">string</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 

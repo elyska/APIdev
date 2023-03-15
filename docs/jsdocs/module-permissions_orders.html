@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: routes/product</title>
+    <title>JSDoc: Module: permissions/orders</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: routes/product</h1>
+    <h1 class="page-title">Module: permissions/orders</h1>
 
     
 
@@ -34,7 +34,7 @@
     <div class="container-overview">
     
         
-            <div class="description">A module that defines Product routes.</div>
+            <div class="description">A module to create permissions for the Order resource.</div>
         
 
         
@@ -69,7 +69,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line2">line 2</a>
+        <a href="permissions_orders.permissions.js.html">permissions/orders.permissions.js</a>, <a href="permissions_orders.permissions.js.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -108,7 +108,7 @@
     
 
     
-    <h4 class="name" id="~addProduct"><span class="type-signature">(async, inner) </span>addProduct<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".pay"><span class="type-signature">(static) </span>pay<span class="signature">(requester, data)</span><span class="type-signature"></span></h4>
     
 
     
@@ -116,7 +116,7 @@
 
 
 <div class="description">
-    A function to add a product.
+    Wrapper that creates permissions to pay for an order.
 </div>
 
 
@@ -152,7 +152,7 @@
 
         <tr>
             
-                <td class="name"><code>ctx</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
@@ -168,7 +168,30 @@
 
             
 
-            <td class="description last">The Koa request/response context object</td>
+            <td class="description last">Details of the user requesting permission</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Details of the owner of the order</td>
         </tr>
 
     
@@ -209,7 +232,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line55">line 55</a>
+        <a href="permissions_orders.permissions.js.html">permissions/orders.permissions.js</a>, <a href="permissions_orders.permissions.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -245,7 +268,7 @@
     
 
     
-    <h4 class="name" id="~deleteProduct"><span class="type-signature">(async, inner) </span>deleteProduct<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".read"><span class="type-signature">(static) </span>read<span class="signature">(requester, data)</span><span class="type-signature"></span></h4>
     
 
     
@@ -253,7 +276,7 @@
 
 
 <div class="description">
-    A function to delete a product by id.
+    Wrapper that creates permissions to read details of an order.
 </div>
 
 
@@ -289,7 +312,7 @@
 
         <tr>
             
-                <td class="name"><code>ctx</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
@@ -305,7 +328,30 @@
 
             
 
-            <td class="description last">The Koa request/response context object</td>
+            <td class="description last">Details of the user requesting permission</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Details of the owner of the order</td>
         </tr>
 
     
@@ -346,7 +392,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line107">line 107</a>
+        <a href="permissions_orders.permissions.js.html">permissions/orders.permissions.js</a>, <a href="permissions_orders.permissions.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -382,7 +428,7 @@
     
 
     
-    <h4 class="name" id="~getAll"><span class="type-signature">(async, inner) </span>getAll<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".readAll"><span class="type-signature">(static) </span>readAll<span class="signature">(requester)</span><span class="type-signature"></span></h4>
     
 
     
@@ -390,7 +436,7 @@
 
 
 <div class="description">
-    A function to get all products.
+    Wrapper that creates permissions to read all orders details.
 </div>
 
 
@@ -426,7 +472,7 @@
 
         <tr>
             
-                <td class="name"><code>ctx</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
@@ -442,7 +488,7 @@
 
             
 
-            <td class="description last">The Koa request/response context object</td>
+            <td class="description last">Details of the user requesting permission</td>
         </tr>
 
     
@@ -483,281 +529,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line27">line 27</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~getById"><span class="type-signature">(async, inner) </span>getById<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    A function to get a product by id.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ctx</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The Koa request/response context object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line37">line 37</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="~updateProduct"><span class="type-signature">(async, inner) </span>updateProduct<span class="signature">(ctx)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    A function to update a product by id.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ctx</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The Koa request/response context object</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="routes_product.route.js.html">routes/product.route.js</a>, <a href="routes_product.route.js.html#line77">line 77</a>
+        <a href="permissions_orders.permissions.js.html">permissions/orders.permissions.js</a>, <a href="permissions_orders.permissions.js.html#line26">line 26</a>
     </li></ul></dd>
     
 

@@ -1,3 +1,9 @@
+
+/**
+ * A module to create JWT authentication strategy.
+ * @module strategies/jwt
+ */
+
 require('dotenv').config()
 
 const User = require('../models/user.model.js');
@@ -11,6 +17,11 @@ var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.TOKEN_SECRET;
 
+/**
+ * The JWT authentication strategy object.
+ * @param {object} opts - Object containing options to control how the token is extracted from the request or verified
+ * @param {function(jwt_payload, done)} - Function to verify a user, (jwt_payload) is an object literal containing the decoded JWT payload, (done) is a passport error first callback accepting arguments done(error, user, info)
+ */
 const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
   console.log("jwt_payload");
   console.log(jwt_payload); //{ email: 'user1@user.com', iat: 1678643460, exp: 1678644060 }
@@ -26,4 +37,7 @@ const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
   } 
 });
 
+/**
+ * The JWT authentication strategy
+ */
 module.exports = jwtStrategy;

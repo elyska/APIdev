@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: controllers/auth.js</title>
+    <title>JSDoc: Source: permissions/categories.permissions.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: controllers/auth.js</h1>
+    <h1 class="page-title">Source: permissions/categories.permissions.js</h1>
 
     
 
@@ -28,17 +28,35 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * A module that exports passport middleware for Koa.
- * @module controllers/auth
+ * A module to create permissions for the Category resource.
+ * @module permissions/categories
  */
 
+const AccessControl = require('role-acl')
+const ac = new AccessControl();
 
-const passport = require('koa-passport');
-const jwtAuth = require('../strategies/jwt');
+// user can view category
+ac.grant('user').execute('read').on('category');
 
-passport.use(jwtAuth);
+// admin can add a category
+ac.grant('admin').execute('create').on('category');
+// admin can delete a category
+ac.grant('admin').execute('delete').on('category');
 
-module.exports = passport.authenticate(['jwt'], {session:false});</code></pre>
+/**
+ * Wrapper that creates permissions to create new categories.
+ * @param {object} requester - Details of the user requesting permission
+ */
+exports.create = (requester) =>
+  ac.can(requester.role).execute('create').sync().on('category');
+
+/**
+ * Wrapper that creates permissions to delete new categories.
+ * @param {object} requester - Details of the user requesting permission
+ */
+exports.delete = (requester) =>
+  ac.can(requester.role).execute('delete').sync().on('category');
+</code></pre>
         </article>
     </section>
 

@@ -94,72 +94,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="Product"><span class="type-signature"></span>Product<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    The Product model
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line120">line 120</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -170,7 +104,7 @@
     
 
     
-    <h4 class="name" id="addProduct"><span class="type-signature"></span>addProduct<span class="signature">(product)</span><span class="type-signature"> &rarr; {<a href="global.html#Product">Product</a>}</span></h4>
+    <h4 class="name" id="create"><span class="type-signature"></span>create<span class="signature">(requester)</span><span class="type-signature"></span></h4>
     
 
     
@@ -178,7 +112,7 @@
 
 
 <div class="description">
-    A function to add a product.
+    Wrapper that creates permissions to create new categories.
 </div>
 
 
@@ -214,13 +148,13 @@
 
         <tr>
             
-                <td class="name"><code>product</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="global.html#ProductCreate">ProductCreate</a></span>
+<span class="param-type">object</span>
 
 
             
@@ -230,7 +164,7 @@
 
             
 
-            <td class="description last">Product details for creation</td>
+            <td class="description last">Details of the user requestion permission</td>
         </tr>
 
     
@@ -271,7 +205,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line83">line 83</a>
+        <a href="permissions_categories.permissions.js.html">permissions/categories.permissions.js</a>, <a href="permissions_categories.permissions.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -296,28 +230,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - Newly created product details
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Product">Product</a></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -329,7 +241,7 @@
     
 
     
-    <h4 class="name" id="deleteById"><span class="type-signature"></span>deleteById<span class="signature">(id)</span><span class="type-signature"> &rarr; {integer}</span></h4>
+    <h4 class="name" id="delete"><span class="type-signature"></span>delete<span class="signature">(requester)</span><span class="type-signature"></span></h4>
     
 
     
@@ -337,7 +249,7 @@
 
 
 <div class="description">
-    A function to delete a product by id.
+    Wrapper that creates permissions to delete new categories.
 </div>
 
 
@@ -373,13 +285,13 @@
 
         <tr>
             
-                <td class="name"><code>id</code></td>
+                <td class="name"><code>requester</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">integer</span>
+<span class="param-type">object</span>
 
 
             
@@ -389,7 +301,7 @@
 
             
 
-            <td class="description last">ID of the product</td>
+            <td class="description last">Details of the user requestion permission</td>
         </tr>
 
     
@@ -430,7 +342,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line108">line 108</a>
+        <a href="permissions_categories.permissions.js.html">permissions/categories.permissions.js</a>, <a href="permissions_categories.permissions.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -455,900 +367,14 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - Number of rows affected
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">integer</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
 
 
         
-            
-
-    
-
-    
-    <h4 class="name" id="getAll"><span class="type-signature"></span>getAll<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#Product">Product</a>>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    A function to get all products.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - A list of all products
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#Product">Product</a>></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getById"><span class="type-signature"></span>getById<span class="signature">(id)</span><span class="type-signature"> &rarr; {<a href="global.html#Product">Product</a>}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    A function to get a product by id.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">ID of the product</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line60">line 60</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - Product details
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="global.html#Product">Product</a></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="updateById"><span class="type-signature"></span>updateById<span class="signature">(id, product)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    A function to update a product by id.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">ID of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>product</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="global.html#ProductCreate">ProductCreate</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Product details for update</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line94">line 94</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    - Number of rows affected
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id="Product">Product</h4>
-
-
-
-
-<div class="description">
-    An object containing product details
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>ID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">ID of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>title</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>price</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Price of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Multiline description of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>image</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">URL of the product image</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line36">line 36</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-            
-                
-<h4 class="name" id="ProductCreate">ProductCreate</h4>
-
-
-
-
-<div class="description">
-    An object containing product details for creation
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>title</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Name of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>price</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">integer</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Price of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>description</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Multiline description of the product</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>image</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">URL of the product image</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="models_product.model.js.html">models/product.model.js</a>, <a href="models_product.model.js.html#line69">line 69</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
-            
     
 
     
@@ -1362,13 +388,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_login-check.html">helpers/login-check</a></li><li><a href="module-helpers_payment.html">helpers/payment</a></li><li><a href="module-helpers_tokens.html">helpers/tokens</a></li><li><a href="module-models_category.html">models/category</a></li><li><a href="module-models_category-item.html">models/category-item</a></li><li><a href="module-models_order.html">models/order</a></li><li><a href="module-models_order-item.html">models/order-item</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addProduct">addProduct</a></li><li><a href="global.html#deleteById">deleteById</a></li><li><a href="global.html#getAll">getAll</a></li><li><a href="global.html#getById">getById</a></li><li><a href="global.html#updateById">updateById</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-controllers_auth.html">controllers/auth</a></li><li><a href="module-controllers_validation.html">controllers/validation</a></li><li><a href="module-helpers_login-check.html">helpers/login-check</a></li><li><a href="module-helpers_payment.html">helpers/payment</a></li><li><a href="module-helpers_tokens.html">helpers/tokens</a></li><li><a href="module-models_category.html">models/category</a></li><li><a href="module-models_category-item.html">models/category-item</a></li><li><a href="module-models_order.html">models/order</a></li><li><a href="module-models_order-item.html">models/order-item</a></li><li><a href="module-models_product.html">models/product</a></li><li><a href="module-models_refresh-tokens.html">models/refresh-tokens</a></li><li><a href="module-models_user.html">models/user</a></li><li><a href="module-routes_category.html">routes/category</a></li><li><a href="module-routes_order.html">routes/order</a></li><li><a href="module-routes_product.html">routes/product</a></li><li><a href="module-routes_user.html">routes/user</a></li><li><a href="module-strategies_jwt.html">strategies/jwt</a></li></ul><h3>Global</h3><ul><li><a href="global.html#create">create</a></li><li><a href="global.html#delete">delete</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 15 2023 08:59:42 GMT+0000 (GMT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Mar 15 2023 10:15:19 GMT+0000 (GMT)
 </footer>
 
 <script> prettyPrint(); </script>
