@@ -188,7 +188,6 @@ async function getAllbyUserId(ctx) { // admin, user - owner
 
 async function insertOrder(ctx) {
   let order = ctx.request.body;
-  console.log(order)
 
   let result = await Order.insertOrder(order);
   let items = await OrderItem.insertOrderItems(order.products, result.ID);

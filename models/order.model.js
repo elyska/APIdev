@@ -89,6 +89,7 @@ exports.getAll = async function getAll() {
 
 /**
  * A function to get an order by id.
+ * @param {integer} id - ID of the order
  * @returns {Order} - Order details
  */
 exports.getById = async function getById(id) {
@@ -104,6 +105,7 @@ exports.getById = async function getById(id) {
 
 /**
  * A function to get all orders of one user.
+ * @param {integer} id - ID of the user
  * @returns {Array.<Order>} - A list of all orders of one user
  */
 exports.getAllbyUserId = async function getAllbyUserId(id) {
@@ -118,6 +120,21 @@ exports.getAllbyUserId = async function getAllbyUserId(id) {
 }
 
 /**
+ * An object containing Order Item details for creation
+ * @typedef {Object} OrderItemInsert
+ * @property {integer} productId - ID of the product
+ * @property {integer} quantity - Quantity of the product
+ */
+
+/**
+ * An object containing Order details for creation
+ * @typedef {Object} OrderInsert
+ * @property {integer} userId - ID of the user
+ * @property {string} address - The delivery address
+ * @property {Array.<OrderItemInsert>} products - A list of the ordered product
+ */
+
+/**
  * An object containing Order details without order items
  * @typedef {Object} CreatedOrder
  * @property {integer} ID - ID of the order
@@ -130,6 +147,7 @@ exports.getAllbyUserId = async function getAllbyUserId(id) {
 
 /**
  * A function to insert an order.
+ * @param {OrderInsert} order - Order details for creation
  * @returns {Array.<CreatedOrder>} - Newly created order details
  */
 exports.insertOrder = async function insertOrder(order) {
@@ -139,6 +157,7 @@ exports.insertOrder = async function insertOrder(order) {
 
 /**
  * A function to update payment status of an order.
+ * @param {integer} id - ID of the order
  * @returns {Object} - Number of rows affected
  */
 exports.updatePaid = async function updatePaid(id) {
@@ -150,4 +169,7 @@ exports.updatePaid = async function updatePaid(id) {
   return result;
 }
 
+/**
+ * The Order model
+ */
 exports.Order = Order;
