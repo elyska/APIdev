@@ -5,7 +5,6 @@
 // node inserts.js
 
 const sequelize = require('./db');
-const Role = require('./models/role.model.js');
 const User = require('./models/user.model.js').User;
 const Product = require('./models/product.model.js').Product;
 const Category = require('./models/category.model.js').Category;
@@ -15,18 +14,12 @@ const OrderItem = require('./models/order-item.model.js').OrderItem;
 
 /*
 User.truncate();
-Role.truncate();
 CategoryItem.truncate();
 Product.truncate();
 Category.truncate();
 OrderItem.truncate();
 Order.truncate();
 */
-
-Role.bulkCreate([
-  { name: "user" },
-  { name: "admin" }
-]);
 
 User.bulkCreate([
   { name: "admin", password: "$2b$10$ia9v64.qGCdaCPVkUqaeJOsMBKS694QEaKAa3y052200.Tl2IRyci", email: "admin@admin.com", address: "Coventry", role: "admin" },
