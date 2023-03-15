@@ -416,6 +416,11 @@ paths:
             application/json:
               schema:
                 $ref: ./category.json#/definitions/categoriesAll
+              example:
+                - ID: 1
+                  title: Category 1
+                - ID: 2
+                  title: Category 2
     post:
       tags:
         - Categories
@@ -428,6 +433,8 @@ paths:
           application/json:
             schema:
               $ref: ./category.json#/definitions/categoryCreate 
+            example:
+              title: Category 3
       responses:
         '201':
           description: Category created
@@ -435,18 +442,25 @@ paths:
             application/json:
               schema:
                 $ref: ./category.json#/definitions/category
+              example:
+                ID: 3
+                title: Category 3
         '400':
           description: Validation failed
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: requires property "title"
         '401':
           description: Only admin users can add new categories
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /categories/{cid}/product/{pid}:
     parameters:
       - in: path
@@ -473,18 +487,26 @@ paths:
             application/json:
               schema:
                 $ref: ./category.json#/definitions/categoryItem
+              example:
+                ID: 3
+                productId: 2
+                categoryId: 1
         '400':
           description: Product could not be added
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Cannot add or update a child row...
         '401':
           description: Only admin users can add products to categories
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
     delete:
       tags:
         - Categories
@@ -497,18 +519,24 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: 1 product deleted from category 2
         '400':
-          description: Category could not be deleted
+          description: Product could not be deleted from the category
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Product was not deleted
         '401':
           description: Only admin users can delete categories
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /categories/{id}:
     parameters:
       - in: path
@@ -529,6 +557,16 @@ paths:
             application/json:
               schema:
                 $ref: ./category.json#/definitions/categoryProductsAll
+              example:
+                - ID: 1
+                  title: Product 1
+                  description: description
+                  image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                  price: 12.99
+                  categoryItems: 
+                      ID: 1
+                      productId: 1
+                      categoryId: 2
     delete:
       tags:
         - Categories
@@ -541,18 +579,24 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: 1 category deleted
         '400':
           description: Category could not be deleted
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Category was not deleted
         '401':
           description: Only admin users can delete categories
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /orders:
     description: This resource represents orders.
     get:
@@ -567,12 +611,32 @@ paths:
             application/json:
               schema:
                 $ref: ./order.json#/definitions/ordersAll
+              example:
+                - ID: 1
+                  userId: 2
+                  address: Coventry, CV1 5AB
+                  paid: false
+                  createdAt: 2023-03-15T12:07:27.552Z
+                  updatedAt: 2023-03-15T12:07:27.552Z
+                  products: 
+                      ID: 1
+                      title: Product 1
+                      description: description
+                      image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                      price: 12.99
+                      orderItems:
+                        ID: 5
+                        productId: 1
+                        quantity: 10
+                        orderId: 1
         '401':
           description: Only admin users can view all orders
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
     post:
       tags:
         - Orders
@@ -585,6 +649,14 @@ paths:
           application/json:
             schema:
               $ref: ./order.json#/definitions/addOrder 
+            example:
+              userId: 2
+              address: Coventry, CV1 5AB
+              products: 
+                - productId: 1
+                  quantity: 5
+                - productId: 3
+                  quantity: 2
       responses:
         '201':
           description: Order was successfully created
@@ -592,12 +664,30 @@ paths:
             application/json:
               schema:
                 $ref: ./order.json#/definitions/order
+              example:
+                  ID: 1
+                  userId: 2
+                  address: Coventry, CV1 5AB
+                  paid: false
+                  createdAt: 2023-03-15T12:07:27.552Z
+                  updatedAt: 2023-03-15T12:07:27.552Z
+                  products:
+                    - ID: 1
+                      productId: 1
+                      quantity: 5
+                      orderId: 1
+                    - ID: 2
+                      productId: 3
+                      quantity: 2
+                      orderId: 1
         '400':
           description: Validation failed
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: requires property "address"
   /orders/{id}:
     get:
       tags:
@@ -611,18 +701,40 @@ paths:
             application/json:
               schema:
                 $ref: ./order.json#/definitions/orderDetails
+              example:
+                  ID: 1
+                  userId: 2
+                  address: Coventry, CV1 5AB
+                  paid: false
+                  createdAt: 2023-03-15T12:07:27.552Z
+                  updatedAt: 2023-03-15T12:07:27.552Z
+                  products: 
+                      ID: 1
+                      title: Product 1
+                      description: description
+                      image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                      price: 12.99
+                      orderItems:
+                        ID: 5
+                        productId: 1
+                        quantity: 10
+                        orderId: 1
         '404':
           description: Order not found
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Order not found
         '401':
           description: Only admin users can view all orders
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /orders/user/{id}:
     get:
       tags:
@@ -636,18 +748,40 @@ paths:
             application/json:
               schema:
                 $ref: ./order.json#/definitions/ordersAll
+              example:
+                - ID: 1
+                  userId: 2
+                  address: Coventry, CV1 5AB
+                  paid: false
+                  createdAt: 2023-03-15T12:07:27.552Z
+                  updatedAt: 2023-03-15T12:07:27.552Z
+                  products: 
+                      ID: 1
+                      title: Product 1
+                      description: description
+                      image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                      price: 12.99
+                      orderItems:
+                        ID: 5
+                        productId: 1
+                        quantity: 10
+                        orderId: 1
         '404':
           description: User not found
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: User not found
         '401':
           description: Only admin users and owners can view all user's orders
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /orders/{id}/payment:
     post:
       tags:
@@ -661,24 +795,32 @@ paths:
             application/json:
               schema:
                 $ref: ./order.json#/definitions/paymentLink
+              example:
+                payment: https://checkout.stripe.com/c/pay/cs_test_b1s4cJkfHGMhc1eJ4tmrCYk74pILOn1PM8k2QObrAh2yG1UGPEdD4AnUyQ#fidkdWxOYHwnPyd1blpxYHZxWjA0STx3aEtBPU9jUkBrQG11dk52c0R1dT1Qc0NyNkJjNTRJXVZkRl1fTGZ1VmxtfHdPbkRAYnRjYDIySGZsXTZmUFR%2FQU5mVlZ9NTIzSWttdWRiamp1VUdCNTVqfVFtfzJTZicpJ2N3amhWYHdzYHcnP3F3cGApJ2lkfGpwcVF8dWAnPydocGlxbFpscWBoJyknYGtkZ2lgVWlkZmBtamlhYHd2Jz9xd3BgeCUl
         '400':
           description: Order is already paid for
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Order is already paid for
         '401':
           description: Only owners of the oreder can pay for it
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
         '404':
           description: Order not found
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Order not found
   /orders/{id}/payment-completed:
     post:
       tags:
@@ -692,24 +834,32 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Payment completed
         '400':
           description: Order is already paid for
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Order is already paid for
         '401':
           description: Only owners of the oreder can pay for it
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
         '404':
           description: Order not found
           content:
             application/json:
               schema:
-                $ref: ./message.json#/definitions/message                
+                $ref: ./message.json#/definitions/
+              example:
+                message: Order not found           
   /orders/success:
     get:
       tags:
@@ -722,7 +872,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ./message.json#/definitions/message                
+                $ref: ./message.json#/definitions/message
+              example:
+                message: success            
   /orders/cancel:
     get:
       tags:
@@ -736,3 +888,5 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: cancel    
