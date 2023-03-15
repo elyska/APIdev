@@ -58,9 +58,9 @@ paths:
             schema:
               $ref: ./user.json#/definitions/userCreate 
             example:   
-              name: Jessica Smith
-              email: jessica.smith@email.com
-              password: secret
+            name: Jessica Smith
+            email: jessica.smith@email.com
+            password: secret
       responses:
         '201':
           description: User created
@@ -69,11 +69,11 @@ paths:
               schema:
                 $ref: ./user.json#/definitions/user
               example:
-                  ID: 10
-                  name: Jessica Smith
-                  email: jessica.smith@email.com
-                  password: password hash
-                  role: user
+                ID: 10
+                name: Jessica Smith
+                email: jessica.smith@email.com
+                password: password hash
+                role: user
         '400':
           description: Validation failed
           content:
@@ -81,7 +81,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: requires property "password"
+                message: requires property "password"
   /users/{id}:
     parameters:
       - in: path
@@ -103,10 +103,10 @@ paths:
               schema:
                 $ref: ./user.json#/definitions/userView
               example:
-                  ID: 10
-                  name: Jessica Smith
-                  email: jessica.smith@email.com
-                  role: user
+                ID: 10
+                name: Jessica Smith
+                email: jessica.smith@email.com
+                role: user
         '401':
           description: Non-admin users can only view their own account.
           content:
@@ -114,7 +114,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: Permission not granted
+                message: Permission not granted
         '404':
           description: User does not exist.
           content:
@@ -122,7 +122,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: User does not exist
+                message: User does not exist
     delete:
       tags:
         - Users
@@ -136,7 +136,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: User 10 deleted
+                message: User 10 deleted
         '401':
           description: Non-admin users can only delete their own account, admin user cannot delete their account, admin user can delete other accounts.
           content:
@@ -144,7 +144,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: Permission not granted
+                message: Permission not granted
         '404':
           description: User does not exist.
           content:
@@ -152,7 +152,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: User does not exist
+                message: User does not exist
   /users/login:
     post:
       tags:
@@ -174,8 +174,8 @@ paths:
               schema:
                 $ref: ./token.json#/definitions/token
               example:
-                  accessToken: Bearer token
-                  refreshToken: refresh token
+                accessToken: Bearer token
+                refreshToken: refresh token
         '400':
           description: Incorrect user details
           content:
@@ -183,7 +183,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: Incorrect email or password
+                message: Incorrect email or password
   /users/refresh:
     post:
       tags:
@@ -207,8 +207,8 @@ paths:
               schema:
                 $ref: ./token.json#/definitions/token
               example:
-                  accessToken: Bearer token
-                  refreshToken: refresh token
+                accessToken: Bearer token
+                refreshToken: refresh token
         '400':
           description: Token invalid
           content:
@@ -216,7 +216,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: invalid token
+                message: invalid token
         '404':
           description: Token not found
           content:
@@ -224,7 +224,7 @@ paths:
               schema:
                 $ref: ./message.json#/definitions/message
               example:
-                  message: Token not found
+                message: Token not found
   /products:
     description: This resource represents products of the system.
     get:
@@ -239,6 +239,17 @@ paths:
             application/json:
               schema:
                 $ref: ./product.json#/definitions/productsAll
+              example:
+                - ID: 1
+                  title: Product 1
+                  description: description
+                  image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                  price: 12.99
+                - ID: 2
+                  title: Product 2
+                  description: description
+                  image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                  price: 10.99
     post:
       tags:
         - Products
@@ -251,6 +262,11 @@ paths:
           application/json:
             schema:
               $ref: ./product.json#/definitions/productCreate 
+            example:
+              title: Product 1
+              description: description
+              image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+              price: 12.99
       responses:
         '201':
           description: Product created
@@ -258,18 +274,28 @@ paths:
             application/json:
               schema:
                 $ref: ./product.json#/definitions/product
+              example:
+                ID: 1
+                title: Product 1
+                description: description
+                image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                price: 12.99
         '400':
           description: Validation failed
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: requires property "price"
         '401':
           description: Only admin users can add new products
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /products/{id}:
     parameters:
       - in: path
@@ -290,12 +316,20 @@ paths:
             application/json:
               schema:
                 $ref: ./product.json#/definitions/product
+              example:
+                ID: 1
+                title: Product 1
+                description: description
+                image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+                price: 12.99
         '404':
           description: Product does not exist
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Product does not exist
     put:
       tags:
         - Products
@@ -307,7 +341,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: ./product.json#/definitions/productUpdate
+              $ref: ./product.json#/definitions/productUpdate 
+            example:
+              title: Product 1
+              description: description
+              image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
+              price: 12.99
       responses:
         '200':
           description: Update successful
@@ -315,18 +354,24 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: 1 product updated
         '400':
           description: Product could not be updated
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Product was not updated
         '401':
           description: Only admin users can update products
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
     delete:
       tags:
         - Products
@@ -339,18 +384,24 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: 1 product deleted
         '400':
           description: Product could not be deleted
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Product was not deleted
         '401':
           description: Only admin users can delete products
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                message: Permission not granted
   /categories:
     description: This resource represents product categories.
     get:
