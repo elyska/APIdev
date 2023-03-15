@@ -34,6 +34,15 @@ paths:
             application/json:
               schema:
                 $ref: ./user.json#/definitions/usersAll
+              example:
+                - id: 10
+                  name: Jessica Smith
+                  email: jessica.smith@email.com
+                  role: user
+                - id: 20
+                  name: Ron Stewart
+                  email: ron.stewart@email.com
+                  role: admin
         '401':
           description: Non-admin cannot view other users.
     post:
@@ -48,6 +57,10 @@ paths:
           application/json:
             schema:
               $ref: ./user.json#/definitions/userCreate 
+            example:   
+              name: Jessica Smith
+              email: jessica.smith@email.com
+              password: secret
       responses:
         '201':
           description: User created
@@ -55,12 +68,20 @@ paths:
             application/json:
               schema:
                 $ref: ./user.json#/definitions/user
+              example:
+                  ID: 10
+                  name: Jessica Smith
+                  email: jessica.smith@email.com
+                  password: password hash
+                  role: user
         '400':
           description: Validation failed
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: requires property "password"
   /users/{id}:
     parameters:
       - in: path
@@ -81,18 +102,27 @@ paths:
             application/json:
               schema:
                 $ref: ./user.json#/definitions/userView
+              example:
+                  ID: 10
+                  name: Jessica Smith
+                  email: jessica.smith@email.com
+                  role: user
         '401':
           description: Non-admin users can only view their own account.
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: Permission not granted
         '404':
           description: User does not exist.
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: User does not exist
     delete:
       tags:
         - Users
@@ -105,18 +135,24 @@ paths:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: User 10 deleted
         '401':
           description: Non-admin users can only delete their own account, admin user cannot delete their account, admin user can delete other accounts.
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: Permission not granted
         '404':
           description: User does not exist.
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: User does not exist
   /users/login:
     post:
       tags:
@@ -137,12 +173,17 @@ paths:
             application/json:
               schema:
                 $ref: ./token.json#/definitions/token
+              example:
+                  accessToken: Bearer token
+                  refreshToken: refresh token
         '400':
           description: Incorrect user details
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: Incorrect email or password
   /users/refresh:
     post:
       tags:
@@ -156,6 +197,8 @@ paths:
           application/json:
             schema:
               $ref: ./token.json#/definitions/tokenRefresh 
+            example:
+              refreshToken: refresh token
       responses:
         '201':
           description: Access token refreshed, new refresh token generated, old refresh token deleted from the database
@@ -163,12 +206,25 @@ paths:
             application/json:
               schema:
                 $ref: ./token.json#/definitions/token
+              example:
+                  accessToken: Bearer token
+                  refreshToken: refresh token
         '400':
-          description: Token not found or invalid
+          description: Token invalid
           content:
             application/json:
               schema:
                 $ref: ./message.json#/definitions/message
+              example:
+                  message: invalid token
+        '404':
+          description: Token not found
+          content:
+            application/json:
+              schema:
+                $ref: ./message.json#/definitions/message
+              example:
+                  message: Token not found
   /products:
     description: This resource represents products of the system.
     get:
