@@ -184,6 +184,7 @@ describe('Get all users', () => {
     const response = await request(app.callback()).
       get('/api/v1/users/')
       .set('Authorization', accessToken);
+      
     const expected = [ { ID: 1, name: 'admin', email: 'admin@admin.com', role: 'admin' }, { ID: 2, name: 'user1', email: 'user1@user.com', role: 'user' } ];
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual(expect.arrayContaining(expected));
