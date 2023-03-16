@@ -23,12 +23,12 @@ const Category = sequelize.define("categories", {
     allowNull: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('Category table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table Category: ', error);
-});
+});*/
 
 // associations
 Product.belongsToMany(Category, { through: CategoryItem, foreignKey: 'productId' });

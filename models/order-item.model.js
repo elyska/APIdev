@@ -28,12 +28,12 @@ const OrderItem = sequelize.define("orderItems", {
     allowNull: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('OrderItem table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table OrderItem: ', error);
-});
+});*/
 
 /**
  * An object containing Order Item details

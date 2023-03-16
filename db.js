@@ -4,7 +4,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(
- 'ecommerce',
+ process.env.DB_DATABASE || 'ecommerce',
  'root',
  'codio',
   {

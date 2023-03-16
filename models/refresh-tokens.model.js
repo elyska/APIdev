@@ -24,12 +24,12 @@ const Token = sequelize.define("tokens", {
     allowNull: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('Token table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table Token: ', error);
-});
+});*/
 
 
 /**

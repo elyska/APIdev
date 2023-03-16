@@ -32,12 +32,12 @@ const Order = sequelize.define("orders", {
     allowNull: false
   }
 }, { timestamps: true });
-
+/*
 sequelize.sync().then(() => {
    console.log('Order table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table Order: ', error);
-});
+});*/
 
 // associations
 Product.belongsToMany(Order, { through: OrderItem, foreignKey: 'productId' });

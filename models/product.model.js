@@ -32,12 +32,12 @@ const Product = sequelize.define("products", {
     allowNull: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('Product table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table Product: ', error);
-});
+});*/
 
 /**
  * An object containing product details

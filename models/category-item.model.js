@@ -26,12 +26,12 @@ const CategoryItem = sequelize.define("categoryItems", {
     unique: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('CategoryItem table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table CategoryItem: ', error);
-});
+});*/
 
 /**
  * An object containing Category Item details

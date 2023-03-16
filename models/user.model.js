@@ -36,12 +36,12 @@ const User = sequelize.define("users", {
     allowNull: false
   }
 }, { timestamps: false });
-
+/*
 sequelize.sync().then(() => {
    console.log('User table created successfully!');
 }).catch((error) => {
    console.error('Unable to create table User: ', error);
-});
+});*/
 
 /**
  * An object containing User details

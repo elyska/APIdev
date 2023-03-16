@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env DB_DATABASE=test_db jest --testTimeout=10000",
+    "test:watch": "cross-env DB_DATABASE=test_db jest --watch",
+    "testDB:drop": "mysql --user=root --password=codio -e 'DROP DATABASE test_db;'",
+    "testDB:create": "mysql --user=root --password=codio -e 'CREATE DATABASE test_db';",
+    "testDB:migrate": "mysqldump --user=root --password=codio ecommerce | mysql --user=root --password=codio test_db;",
+    "pretest": "npm run testDB:drop && npm run testDB:create && npm run testDB:migrate"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +30,15 @@
     "stripe": "^11.14.0"
   },
   "devDependencies": {
-    "jsdoc": "^4.0.2"
+    "cross-env": "^7.0.3",
+    "jest": "^29.5.0",
+    "jsdoc": "^4.0.2",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
