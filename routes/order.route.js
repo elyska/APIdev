@@ -62,7 +62,7 @@ async function createPayment(ctx) {
   // check permissions
   if (!permission.granted) { // user is not the owner of the order
     ctx.status = 401;
-    ctx.body = { "massage": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted" }
     return;
   }
 
@@ -117,7 +117,7 @@ async function paymentCompleted(ctx) {
   }
   else {
     ctx.status = 401;
-    ctx.body = { "massage": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted" }
   }
 }
 

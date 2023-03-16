@@ -232,15 +232,3 @@ describe('Delete a product', () => {
     expect(response.body).toHaveProperty('message', 'Permission not granted');
   });
 });
-
-/*
-describe('', () => {
-  it('', async ()=> {
-    const response = await request(app.callback()).
-      get('/api/v1/products');
-
-    expect(response.statusCode).toEqual();
-    expect(response.body).toHaveProperty('', '');
-  });
-});
-*/
