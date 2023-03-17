@@ -40,10 +40,10 @@ async function getAll(ctx) {
       product.dataValues.links = links;
       return product;
     });
-
-    ctx.status = 200;
-    ctx.body = body;
+    products = body;
   }
+  ctx.status = 200;
+  ctx.body = products;
 }
 
 /**
