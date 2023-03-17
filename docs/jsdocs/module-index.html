@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: permissions/orders.permissions.js</title>
+    <title>JSDoc: Module: index</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,60 +17,96 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: permissions/orders.permissions.js</h1>
+    <h1 class="page-title">Module: index</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * A module to create permissions for the Order resource.
- * @module permissions/orders
- */
+</header>
 
-const AccessControl = require('role-acl')
-const ac = new AccessControl();
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">A module to start the Koa app and listen on a port.</div>
+        
 
-// user can pay their own order
-ac.grant('user').condition({Fn:'EQUALS', args: {'requester':'$.owner'}}).execute('pay')
-  .on('order');
-// user can view their own order
-ac.grant('user').condition({Fn:'EQUALS', args: {'requester':'$.owner'}}).execute('read')
-  .on('order');
+        
 
-// admin can view all orders
-ac.grant('admin').execute('read').on('orders');
-// admin can view any order
-ac.grant('admin').execute('read').on('order');
 
-/**
- * Wrapper that creates permissions to read all orders details.
- * @param {object} requester - Details of the user requesting permission
- */
-exports.readAll = (requester) =>
-  ac.can(requester.role).execute('read').sync().on('orders');
+<dl class="details">
 
-/**
- * Wrapper that creates permissions to read details of an order.
- * @param {object} requester - Details of the user requesting permission
- * @param {object} data - Details of the owner of the order
- */
-exports.read = (requester, data) =>
-  ac.can(requester.role).context({requester:requester.email, owner:data.email}).execute('read').sync().on('order');
+    
 
-/**
- * Wrapper that creates permissions to pay for an order.
- * @param {object} requester - Details of the user requesting permission
- * @param {object} data - Details of the owner of the order
- */
-exports.pay = (requester, data) =>
-  ac.can(requester.role).context({requester:requester.email, owner:data.email}).execute('pay').sync().on('order');</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

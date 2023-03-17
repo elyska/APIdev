@@ -12,7 +12,8 @@ const model = require('../models/product.model.js');
 
 const { validateProduct, validateProductUpdate } = require('../controllers/validation');
 
-const router = Router({prefix: '/api/v1/products'});
+const prefix = '/api/v1/products'
+const router = Router({prefix: prefix});
 
 router.get('/', getAll);
 router.get('/:id([0-9]{1,})', getById);
@@ -26,8 +27,23 @@ router.del('/:id([0-9]{1,})', auth, deleteProduct);
  */
 async function getAll(ctx) {
   let products = await model.getAll();
-  ctx.status = 200;
-  ctx.body = products;
+
+  if (products.length) {
+    const body = products.map(product => {
+      const links = {
+        self: `${ctx.protocol}://${ctx.host}${prefix}`,
+        detail: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+        update: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+        delete: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+        add: `${ctx.protocol}://${ctx.host}${prefix}`
+      };
+      product.dataValues.links = links;
+      return product;
+    });
+
+    ctx.status = 200;
+    ctx.body = body;
+  }
 }
 
 /**
@@ -43,6 +59,14 @@ async function getById(ctx) {
     ctx.body = { "message": "Product does not exist" };
     return;
   }
+
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+    update: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+    delete: `${ctx.protocol}://${ctx.host}${prefix}/${product.ID}`,
+    add: `${ctx.protocol}://${ctx.host}${prefix}`
+  };
+  product.dataValues.links = links;
 
   ctx.status = 200;
   ctx.body = product;
@@ -61,12 +85,26 @@ async function addProduct(ctx) {
     // add product
     let product = ctx.request.body;
     let result = await model.addProduct(product);
+
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}`,
+      detail: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
+      update: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
+      delete: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
+      allProducts: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
+    result.dataValues.links = links;
+
     ctx.status = 201;
     ctx.body = result;
   }
   else {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}`,
+      allProducts: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -75,28 +113,35 @@ async function addProduct(ctx) {
  * @param {object} ctx - The Koa request/response context object
  */
 async function updateProduct(ctx) {
+  const id = ctx.params.id;
   // check permission
   const user = ctx.state.user;
   const permission = can.update(user);
+  const links = {
+        self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        detail: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        delete: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        allProducts: `${ctx.protocol}://${ctx.host}${prefix}`,
+        add: `${ctx.protocol}://${ctx.host}${prefix}`
+  };
 
   if (permission.granted) {
     // update product
-    const id = ctx.params.id;
     const product = ctx.request.body;
 
     const affectedRows = await model.updateById(id, product);
     if (affectedRows != 0) {
       ctx.status = 200;
-      ctx.body =  { "message": `${affectedRows} product updated` };
+      ctx.body =  { "message": `${affectedRows} product updated`, "links": links };
     }
     else {
       ctx.status = 400;
-      ctx.body =  { "message": `Product was not updated` };
+      ctx.body =  { "message": `Product was not updated`, "links": links  };
     }
   }
   else {
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -105,28 +150,35 @@ async function updateProduct(ctx) {
  * @param {object} ctx - The Koa request/response context object
  */
 async function deleteProduct(ctx) {
+  const id = ctx.params.id;
+  const links = {
+        self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        detail: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        update: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        allProducts: `${ctx.protocol}://${ctx.host}${prefix}`,
+        add: `${ctx.protocol}://${ctx.host}${prefix}`
+  };
   // check permission
   const user = ctx.state.user;
   const permission = can.delete(user);
 
   if (permission.granted) {
     // delete product
-    const id = ctx.params.id;
     const product = ctx.request.body;
 
     const affectedRows = await model.deleteById(id);
     if (affectedRows != 0) {
       ctx.status = 200;
-      ctx.body =  { "message": `${affectedRows} product deleted` };
+      ctx.body =  { "message": `${affectedRows} product deleted`, "links": links };
     }
     else {
       ctx.status = 400;
-      ctx.body =  { "message": `Product was not deleted` };
+      ctx.body =  { "message": `Product was not deleted`, "links": links };
     }
   }
   else {
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
