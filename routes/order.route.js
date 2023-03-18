@@ -21,7 +21,8 @@ const { validateOrder } = require('../controllers/validation');
 
 const PaymentHelper= require('../helpers/payment.helper.js');
 
-const router = Router({prefix: '/api/v1/orders'});
+const prefix = '/api/v1/orders';
+const router = Router({prefix: prefix});
 
 router.get('/', auth, getAll);
 router.get('/:id([0-9]{1,})', auth, getById);
@@ -45,14 +46,22 @@ async function createPayment(ctx) {
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      add: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 404;
-    ctx.body = { "message": "Order not found" }; 
+    ctx.body = { "message": "Order not found", "links": links }; 
     return;
   }
   // check if order was paid
   if (order.paid) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      details: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`
+    };
     ctx.status = 400;
-    ctx.body = { "message": "Order is already paid for" }; 
+    ctx.body = { "message": "Order is already paid for", "links": links }; 
     return;
   }
   const owner = await User.getById(order.userId);
@@ -61,8 +70,12 @@ async function createPayment(ctx) {
 
   // check permissions
   if (!permission.granted) { // user is not the owner of the order
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      details: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted", "links": links }
     return;
   }
 
@@ -80,8 +93,13 @@ async function createPayment(ctx) {
     cancel_url: `${YOUR_DOMAIN}/cancel`,
   });
 
+  const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      complete: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment-completed`,
+      details: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`
+  };
   ctx.status = 200;
-  ctx.body = { "payment": session.url }; 
+  ctx.body = { "payment": session.url, "links": links }; 
 }
 
 /**
@@ -91,18 +109,27 @@ async function createPayment(ctx) {
 async function paymentCompleted(ctx) {
   let orderId = ctx.params.id;
 
+  const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment-completed`,
+      details: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`
+  };
+
   const user = ctx.state.user;
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      add: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 404;
-    ctx.body = { "message": "Order not found" }; 
+    ctx.body = { "message": "Order not found", "links": links }; 
     return;
   }
   // check if order was paid
   if (order.paid) {
     ctx.status = 400;
-    ctx.body = { "message": "Order is already paid for" }; 
+    ctx.body = { "message": "Order is already paid for", "links": links }; 
     return;
   }
   const owner = await User.getById(order.userId);
@@ -113,11 +140,11 @@ async function paymentCompleted(ctx) {
   if (permission.granted) { 
     let order = await Order.updatePaid(orderId);
     ctx.status = 201;
-    ctx.body = { "message": "Payment completed" };
+    ctx.body = { "message": "Payment completed", "links": links };
   }
   else {
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted", "links": links }
   }
 }
 
@@ -151,12 +178,28 @@ async function getAll(ctx) { // admin
   if (permission.granted) {
     // delete product
     let orders = await Order.getAll();
+    if (orders.length) {
+      const body = orders.map(item => {
+        const links = {
+          self: `${ctx.protocol}://${ctx.host}${prefix}`,
+          detail: `${ctx.protocol}://${ctx.host}${prefix}/${item.ID}`
+        };
+        item.dataValues.links = links;
+        return item;
+      });
+
+      orders = body;
+    }
     ctx.status = 200;
     ctx.body = orders;
   }
   else {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}`,
+      add: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -172,8 +215,12 @@ async function getById(ctx) { // admin, user - owner
   let order = await Order.getById(orderId);
   // check if order exists
   if (!order) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`,
+      all: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 404;
-    ctx.body = { "message": "Order not found" }; 
+    ctx.body = { "message": "Order not found", "links": links }; 
     return;
   }
   const owner = await User.getById(order.userId);
@@ -181,12 +228,22 @@ async function getById(ctx) { // admin, user - owner
   const permission = can.read(user, owner);
 
   if (permission.granted) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`,
+      pay: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}/payment`,
+      all: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
+    order.dataValues.links = links;
     ctx.status = 200;
     ctx.body = order;
   }
   else {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${orderId}`,
+      add: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -202,8 +259,12 @@ async function getAllbyUserId(ctx) { // admin, user - owner
   const owner = await User.getById(userId);
   // check if user exists
   if (!owner) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/user/${userId}`,
+      all: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 404;
-    ctx.body = { "message": "User not found" }; 
+    ctx.body = { "message": "User not found", "links": links }; 
     return;
   }
 
@@ -211,12 +272,30 @@ async function getAllbyUserId(ctx) { // admin, user - owner
 
   if (permission.granted) {
     let orders = await Order.getAllbyUserId(userId);
+    if (orders.length) {
+      const body = orders.map(item => {
+        const links = {
+          self: `${ctx.protocol}://${ctx.host}${prefix}/user/${userId}`,
+          detail: `${ctx.protocol}://${ctx.host}${prefix}/${item.ID}`,
+          all: `${ctx.protocol}://${ctx.host}${prefix}`,
+          pay: `${ctx.protocol}://${ctx.host}${prefix}/${item.ID}/payment`
+        };
+        item.dataValues.links = links;
+        return item;
+      });
+
+      orders = body;
+    }
     ctx.status = 200;
     ctx.body = orders;
   }
   else {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/user/${userId}`,
+      add: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -232,6 +311,12 @@ async function insertOrder(ctx) {
 
   // add order items to result
   result.dataValues.products = items;
+
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}`,
+    pay: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}/payment`
+  };
+  result.dataValues.links = links;
 
   ctx.status = 201;
   ctx.body = result;
