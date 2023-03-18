@@ -26,10 +26,6 @@
         "price": {
           "description": "Price of the product in GBP",
           "type": "number"
-        },
-        "links": {
-          "description": "Links to related resource",
-          "type": "object"
         }
       },
       "required": ["title", "description", "image", "price"]

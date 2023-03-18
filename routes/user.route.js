@@ -19,7 +19,8 @@ const TokenHelper= require('../helpers/tokens.js');
 
 const { validateUser, validateUserLogin } = require('../controllers/validation');
 
-const router = Router({prefix: '/api/v1/users'});
+const prefix = '/api/v1/users';
+const router = Router({prefix: prefix});
 
 router.get('/', auth, getAll);
 router.get('/:id([0-9]{1,})', auth, getById);
@@ -40,8 +41,12 @@ async function login(ctx) {
 
   // login failed
   if (!loginSuccessful) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/login`,
+      register: `${ctx.protocol}://${ctx.host}${prefix}`
+    };
     ctx.status = 400;
-    ctx.body = { "message": "Incorrect email or password" };
+    ctx.body = { "message": "Incorrect email or password", "links": links };
     return;
   }
 
@@ -49,8 +54,14 @@ async function login(ctx) {
   var accessToken = TokenHelper.createAccessToken(user.email);
   var refreshToken = await TokenHelper.createRefreshToken(user.email);
 
+  const id = await model.getByEmail(user.email);
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}/login`,
+    details: `${ctx.protocol}://${ctx.host}${prefix}/${id.ID}`,
+    delete: `${ctx.protocol}://${ctx.host}${prefix}/${id.ID}`
+  };
   ctx.status = 200;
-  ctx.body = { "accessToken": "Bearer " + accessToken, "refreshToken": refreshToken };
+  ctx.body = { "accessToken": "Bearer " + accessToken, "refreshToken": refreshToken, "links": links };
 }
 
 /**
@@ -58,6 +69,10 @@ async function login(ctx) {
  * @param {object} ctx - The Koa request/response context object
  */
 async function refresh(ctx) {
+  const links = {
+    self: `${ctx.protocol}://${ctx.host}${prefix}/refresh`,
+    login: `${ctx.protocol}://${ctx.host}${prefix}/login`
+  };
   const refreshToken = ctx.request.body.refreshToken;
 
   let payload;
@@ -65,7 +80,7 @@ async function refresh(ctx) {
   jwt.verify(refreshToken, process.env.REFRESH_SECRET, function(err, decoded) {
     if (err) {
       ctx.status = 400;
-      ctx.body = { "message": err.message };
+      ctx.body = { "message": err.message, "links": links };
     }
     else {
       payload = decoded;
@@ -79,7 +94,7 @@ async function refresh(ctx) {
   // token not found in the database
   if (!result) {
     ctx.status = 404;
-    ctx.body = { "message": "Token not found" };
+    ctx.body = { "message": "Token not found", "links": links };
     return;
   }
   // token found in the database
@@ -89,7 +104,7 @@ async function refresh(ctx) {
   const rowsAffected = await Token.deleteToken(refreshToken); // refresh token rotation
       
   ctx.status = 201;
-  ctx.body = { "accessToken": "Bearer " + newAccessToken, "refreshToken": newRefreshToken };
+  ctx.body = { "accessToken": "Bearer " + newAccessToken, "refreshToken": newRefreshToken, "links": links };
 }
 
 /**
@@ -102,12 +117,28 @@ async function getAll(ctx) {
 
   if (permission.granted) {
     let users = await model.getAll();
+    if (users.length) {
+      const body = users.map(user => {
+        const links = {
+          self: `${ctx.protocol}://${ctx.host}${prefix}`,
+          detail: `${ctx.protocol}://${ctx.host}${prefix}/${user.ID}`,
+          delete: `${ctx.protocol}://${ctx.host}${prefix}/${user.ID}`
+        };
+        user.dataValues.links = links;
+        return user;
+      });
+      users = body;
+    }
     ctx.status = 200;
     ctx.body = users;
   }
   else {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}`,
+      login: `${ctx.protocol}://${ctx.host}${prefix}/login`
+    };
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" };
+    ctx.body = { "message": "Permission not granted", "links": links };
   }
 }
 
@@ -118,22 +149,29 @@ async function getAll(ctx) {
 async function getById(ctx) {
   const user = ctx.state.user;
   const id = ctx.params.id;
+
+  const links = {
+        self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+        users: `${ctx.protocol}://${ctx.host}${prefix}`
+  };
+
   const owner = await model.getById(id);
   if (!owner) {
     ctx.status = 404;
-    ctx.body = { "message": "User does not exist" };
+    ctx.body = { "message": "User does not exist", "links": links };
     return;
   }
 
   const permission = can.read(user, owner);
 
   if (permission.granted) {
+    owner.dataValues.links = links;
     ctx.status = 200;
     ctx.body = permission.filter(owner).dataValues;
   }
   else {
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted", "links": links }
   }
 }
 
@@ -145,12 +183,22 @@ async function createUser(ctx) {
   let user = ctx.request.body;
   try {
     let result = await model.createUser(user);
+    const links = {
+        self: `${ctx.protocol}://${ctx.host}${prefix}`,
+        login: `${ctx.protocol}://${ctx.host}${prefix}/login`,
+        details: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
+    };
+    result.dataValues.links = links;
     ctx.status = 201;
     ctx.body = result;
   }
   catch(err) {
+    const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}`,
+      login: `${ctx.protocol}://${ctx.host}${prefix}/login`
+    };
     ctx.status = 400;
-    ctx.body = { "message": err.message };
+    ctx.body = { "message": err.message, "links": links };
   }
 }
 
@@ -161,10 +209,15 @@ async function createUser(ctx) {
 async function deleteUser(ctx) {
   const user = ctx.state.user;
   const id = ctx.params.id;
+  const links = {
+      self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
+      users: `${ctx.protocol}://${ctx.host}${prefix}`
+  };
+
   const owner = await model.getById(id);
   if (!owner) {
     ctx.status = 404;
-    ctx.body = { "message": "User does not exist" };
+    ctx.body = { "message": "User does not exist", "links": links };
     return;
   }
 
@@ -173,11 +226,11 @@ async function deleteUser(ctx) {
   if (permission.granted) {
     let rowsAffected = await model.deleteUser(id);
     ctx.status = 200;
-    ctx.body = { "message": `User ${id} deleted` };
+    ctx.body = { "message": `User ${id} deleted`, "links": links };
   }
   else {
     ctx.status = 401;
-    ctx.body = { "message": "Permission not granted" }
+    ctx.body = { "message": "Permission not granted", "links": links }
   }
 }
 

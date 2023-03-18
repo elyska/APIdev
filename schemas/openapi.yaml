@@ -245,23 +245,11 @@ paths:
                   description: description
                   image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
                   price: 12.99
-                  links: 
-                    self: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
-                    detail: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/1"
-                    update: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/1"
-                    delete: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/1"
-                    add: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
                 - ID: 2
                   title: Product 2
                   description: description
                   image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
                   price: 10.99
-                  links: 
-                    self: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
-                    detail: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/2"
-                    update: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/2"
-                    delete: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/2"
-                    add: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
     post:
       tags:
         - Products
@@ -292,11 +280,6 @@ paths:
                 description: description
                 image: https://pixabay.com/photos/tree-sunset-clouds-sky-silhouette-736885/
                 price: 12.99
-                links: 
-                    self: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
-                    update: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/1"
-                    delete: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products/1"
-                    allProducts: "http://goodvertigo-chariotclarion-3000.codio-box.uk/api/v1/products"
         '400':
           description: Validation failed
           content:

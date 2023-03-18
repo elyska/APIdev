@@ -10,13 +10,13 @@ const ac = new AccessControl();
 
 // user can view their own account
 ac.grant('user').condition({Fn: 'EQUALS', args: {'requester':'$.owner'}}).execute('read')
-  .on('user', ['dataValues.ID', 'dataValues.name', 'dataValues.email', 'dataValues.role']);
+  .on('user', ['*', '!dataValues.password']);
 // user can delete their own account
 ac.grant('user').condition({Fn:'EQUALS', args: {'requester':'$.owner'}}).execute('delete')
   .on('user');
 
 // admin can view a user
-ac.grant('admin').execute('read').on('user', ['dataValues.ID', 'dataValues.name', 'dataValues.email', 'dataValues.role']);
+ac.grant('admin').execute('read').on('user', ['*', '!dataValues.password']);
 // admin can view all users
 ac.grant('admin').execute('read').on('users');
 // admin can delete other accounts except their own
