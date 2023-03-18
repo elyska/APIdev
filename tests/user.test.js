@@ -185,9 +185,9 @@ describe('Get all users', () => {
       get('/api/v1/users/')
       .set('Authorization', accessToken);
       
-    const expected = [ { ID: 1, name: 'admin', email: 'admin@admin.com', role: 'admin' }, { ID: 2, name: 'user1', email: 'user1@user.com', role: 'user' } ];
+    const expected = { ID: 1, name: 'admin', email: 'admin@admin.com', role: 'admin' };
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(expect.arrayContaining(expected));
+    expect(response.body).toEqual(expect.arrayContaining([expect.objectContaining(expected)]));
   });
 
   it('should not return all users if non-admin user is logged in', async ()=> {

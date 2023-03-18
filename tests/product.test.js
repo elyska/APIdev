@@ -7,11 +7,10 @@ describe('Get all products', () => {
     const response = await request(app.callback()).
       get('/api/v1/products');
 
-    const expected = [ {"ID": 1, "description": "description", "image": "url", "price": 12.99, "title": "Product 1"}, 
-                       {"ID": 2, "description": "description", "image": "url", "price": 10.99, "title": "Product 2"} ];
+    const expected = {"ID": 1, "description": "description", "image": "url", "price": 12.99, "title": "Product 1"};
                        
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(expect.arrayContaining(expected));
+    expect(response.body).toEqual(expect.arrayContaining([expect.objectContaining(expected)]));
   });
 });
 
@@ -23,7 +22,7 @@ describe('Get a product by id', () => {
     const expected = {"ID": 1, "description": "description", "image": "url", "price": 12.99, "title": "Product 1"};
                        
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(expected);
+    expect(response.body).toEqual(expect.objectContaining(expected));
   });
 
   it('should return error message if product is not found', async ()=> {

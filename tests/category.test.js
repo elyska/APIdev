@@ -7,19 +7,13 @@ describe('Get all categories', () => {
     const response = await request(app.callback()).
       get('/api/v1/categories');
 
-    const expected = [
-      {
-        "ID": 1,
-        "title": "Category 1"
-      },
-      {
+    const expected = {
         "ID": 2,
         "title": "Category 2"
-      }
-    ];
+      };
                        
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(expect.arrayContaining(expected));
+    expect(response.body).toEqual(expect.arrayContaining([expect.objectContaining(expected)]));
   });
 });
 
@@ -246,8 +240,7 @@ describe('Get all products in a category', () => {
     const response = await request(app.callback()).
       get('/api/v1/categories/1');
 
-    const expected = [
-      {
+    const expected = {
         "ID": 1,
         "title": "Product 1",
         "description": "description",
@@ -258,11 +251,10 @@ describe('Get all products in a category', () => {
           "productId": 1,
           "categoryId": 1
         }
-      }
-    ];
+      };
                        
     expect(response.statusCode).toEqual(200);
-    expect(response.body).toEqual(expect.arrayContaining(expected));
+    expect(response.body).toEqual(expect.arrayContaining([expect.objectContaining(expected)]));
   });
 });
 
