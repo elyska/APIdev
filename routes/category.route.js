@@ -36,7 +36,6 @@ async function getAll(ctx) {
     const body = result.map(category => {
       const links = {
         self: `${ctx.protocol}://${ctx.host}${prefix}`,
-        update: `${ctx.protocol}://${ctx.host}${prefix}/${category.ID}`,
         delete: `${ctx.protocol}://${ctx.host}${prefix}/${category.ID}`,
         add: `${ctx.protocol}://${ctx.host}${prefix}`,
         products: `${ctx.protocol}://${ctx.host}${prefix}/${category.ID}`
@@ -66,7 +65,6 @@ async function addCategory(ctx) {
     
     const links = {
         self: `${ctx.protocol}://${ctx.host}${prefix}`,
-        update: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
         delete: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`,
         products: `${ctx.protocol}://${ctx.host}${prefix}/${result.ID}`
     };
@@ -94,7 +92,6 @@ async function addToCategory(ctx) {
   let pid = ctx.params.pid;
   const links = {
         self: `${ctx.protocol}://${ctx.host}${prefix}/${cid}/${pid}`,
-        updateCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}`,
         deleteCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}`,
         deleteFromCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}/product/${pid}`,
         categories: `${ctx.protocol}://${ctx.host}${prefix}`
@@ -137,7 +134,6 @@ async function getCategoryProducts(ctx) {
     const body = result.map(item => {
       const links = {
         self: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
-        updateCategory: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
         deleteCategory: `${ctx.protocol}://${ctx.host}${prefix}/${id}`,
         deleteFromCategory: `${ctx.protocol}://${ctx.host}${prefix}/${id}/product/${item.ID}`,
         categories: `${ctx.protocol}://${ctx.host}${prefix}`
@@ -196,7 +192,6 @@ async function deleteFromCategory(ctx) {
   let pid = ctx.params.pid;
   const links = {
         self: `${ctx.protocol}://${ctx.host}${prefix}/${cid}/${pid}`,
-        updateCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}`,
         deleteCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}`,
         addToCategory: `${ctx.protocol}://${ctx.host}${prefix}/${cid}/product/${pid}`,
         categories: `${ctx.protocol}://${ctx.host}${prefix}`

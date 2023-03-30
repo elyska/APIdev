@@ -5,7 +5,7 @@ const fetchPromise = fetch('https://goodvertigo-chariotclarion-3000.codio-box.uk
     method: 'POST',
         headers: {
             'Content-type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQHVzZXIuY29tIiwiaWF0IjoxNjc4NzE5MDM4LCJleHAiOjE2Nzg3MTk2Mzh9.yqq0Ii_D-l1Xx-Jxqz4jE4B60xZ8K8eLX4fXC_1yrNs'
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQHVzZXIuY29tIiwiaWF0IjoxNjc5MjI4OTA0LCJleHAiOjE2NzkyMjk1MDR9.WXul39rs5xkZ3h4Na3Mb3-q1Xmbv8ZzjSHa7G5u_CF8'
     }
 });
 fetchPromise.then(res => res.json()).then(res => {

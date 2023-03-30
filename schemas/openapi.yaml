@@ -58,9 +58,9 @@ paths:
             schema:
               $ref: ./user.json#/definitions/userCreate 
             example:   
-            name: Jessica Smith
-            email: jessica.smith@email.com
-            password: secret
+              name: Jessica Smith
+              email: jessica.smith@email.com
+              password: secret
       responses:
         '201':
           description: User created

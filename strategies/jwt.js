@@ -23,8 +23,6 @@ opts.secretOrKey = process.env.TOKEN_SECRET;
  * @param {function(jwt_payload, done)} - Function to verify a user, (jwt_payload) is an object literal containing the decoded JWT payload, (done) is a passport error first callback accepting arguments done(error, user, info)
  */
 const jwtStrategy = new JwtStrategy(opts, async function(jwt_payload, done) {
-  console.log("jwt_payload");
-  console.log(jwt_payload); //{ email: 'user1@user.com', iat: 1678643460, exp: 1678644060 }
   
   // check if user exists
   const user = await User.getByEmail(jwt_payload.email); 
